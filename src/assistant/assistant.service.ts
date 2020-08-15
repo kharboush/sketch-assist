@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { CliService } from './cli.service';
-import { CreateAssistantDTO } from './common/assistant.dto';
+import { CliService } from '../cli.service';
+import { CreateAssistantDTO } from '../common/assistant.dto';
 
 @Injectable()
 export class AppService {

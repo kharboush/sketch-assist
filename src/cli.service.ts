@@ -13,7 +13,7 @@ export class CliService {
     const options = { ...PACKAGE_JSON, ...requestBody };
     try {
       await this.write(
-        './files/assistant-template/package.json',
+        `./${TEMPLATE_DIR}/package.json`,
         JSON.stringify(options),
       );
     } catch (err) {

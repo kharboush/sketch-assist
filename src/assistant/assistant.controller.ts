@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import CoreAssistant from '@sketch-hq/sketch-core-assistant';
 import { Response } from 'express';
-import { AppService } from './app.service';
-import { CreateAssistantDTO } from './common/assistant.dto';
+import { AppService } from './assistant.service';
+import { CreateAssistantDTO } from '../common/assistant.dto';
 
 @Controller()
-export class AppController {
+export class AssistantController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
