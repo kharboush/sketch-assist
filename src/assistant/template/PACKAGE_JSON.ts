@@ -1,4 +1,3 @@
-export const TEMPLATE_DIR = 'src/assistant/template';
 export const PACKAGE_JSON = {
   name: 'sketch-assistant',
   homepage: 'https://github.com/kharboush/sketch-assistant',

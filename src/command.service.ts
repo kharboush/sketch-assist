@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { TEMPLATE_DIR, PACKAGE_JSON } from './common/CONFIG';
 import { promises as fs } from 'fs';
 import * as util from 'util';
+import { PACKAGE_JSON } from './assistant/template/PACKAGE_JSON';
 import { CreateAssistantDTO } from './common/assistant.dto';
+import { TEMPLATE_DIR } from './common/STATIC';
 
 @Injectable()
-export class CliService {
+export class CommandService {
   execute = util.promisify(require('child_process').exec);
   write = fs.writeFile;
 
@@ -17,7 +18,7 @@ export class CliService {
         JSON.stringify(options),
       );
     } catch (err) {
-      console.error(err);
+      return err;
     }
   }
 
@@ -28,7 +29,7 @@ export class CliService {
       );
       return this.getFilePath(cmdReponse);
     } catch (err) {
-      console.error(err);
+      return err;
     }
   }
 

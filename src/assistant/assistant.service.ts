@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { CliService } from '../cli.service';
+import { CommandService } from '../command.service';
 import { CreateAssistantDTO } from '../common/assistant.dto';
 
 @Injectable()
-export class AppService {
-  constructor(private readonly cliService: CliService) {}
+export class AssistantService {
+  constructor(private readonly cliService: CommandService) {}
 
   public async getAssistant(
     requestBody: CreateAssistantDTO,
