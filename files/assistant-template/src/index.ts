@@ -1,6 +1,7 @@
-import { AssistantPackage } from '@sketch-hq/sketch-assistant-types'
-import CoreAssistant from '@sketch-hq/sketch-core-assistant'
-import textDisallow from './rules/text-disallow'
+import { AssistantPackage } from '@sketch-hq/sketch-assistant-types';
+import CoreAssistant from '@sketch-hq/sketch-core-assistant';
+import textDisallow from './rules/text-disallow';
+import { rules } from './RULE_CONFIG';
 
 const assistant: AssistantPackage = [
   CoreAssistant,
@@ -9,22 +10,10 @@ const assistant: AssistantPackage = [
       name: 'sketch-modular-assistant',
       rules: [textDisallow],
       config: {
-        rules: {
-          'sketch-modular-assistant/text-disallow': {
-            active: true,
-            pattern: 'customstringplaceholder',
-          },
-          '@sketch-hq/sketch-core-assistant/shadows-no-disabled': {
-            active: true,
-          },
-        },
+        rules,
       },
-    }
+    };
   },
-]
+];
 
-;(async () => {
-  console.log(assistant[1].toString())
-})()
-
-export default assistant
+export default assistant;
