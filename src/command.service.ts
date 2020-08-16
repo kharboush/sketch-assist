@@ -55,7 +55,9 @@ export class CommandService {
   public async downloadRepo(repoName: string): Promise<void> {
     const url = `https://api.github.com/repos/${repoName}/tarball`;
     const fileName = `${repoName.split('/')[1]}.tar.gz`;
-    const createFile = require('fs').createWriteStream(`./${fileName}`);
+    const createFile = require('fs').createWriteStream(
+      `./${TEMPLATE_DIR}/output/${fileName}`,
+    );
     const writeToFile = async response => {
       await response.data.pipe(createFile);
       return new Promise((resolve, reject) => {
