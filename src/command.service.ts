@@ -16,8 +16,8 @@ export class CommandService {
     const userConfig = {
       name: parsedFileName,
       'sketch-assistant': {
-        title: requestBody.name,
-        description: requestBody.description,
+        title: requestBody.name || 'Untitled Sketch Assistant',
+        description: requestBody.description || 'No description provided.',
         icon: '',
       },
     };
@@ -52,8 +52,8 @@ export class CommandService {
   }
 
   private getFilePath(cmdResponse: string): string {
-    const responseMessage: string[] = cmdResponse.split('\n');
-    const fileName = responseMessage.find(txt => txt.includes('.tgz'));
+    const responseArray: string[] = cmdResponse.split('\n');
+    const fileName = responseArray.find(txt => txt.includes('.tgz'));
     return `${TEMPLATE_DIR}/output/${fileName}`;
   }
 
