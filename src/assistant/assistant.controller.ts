@@ -1,16 +1,15 @@
 import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import CoreAssistant from '@sketch-hq/sketch-core-assistant';
 import { Response } from 'express';
-import { AssistantService } from './assistant.service';
 import { CreateAssistantDTO } from '../common/assistant.dto';
+import { AssistantService } from './assistant.service';
 
 @Controller()
 export class AssistantController {
-  constructor(private readonly appService: AssistantService) {}
+  constructor(private readonly assistantService: AssistantService) {}
 
   @Get()
-  public async getStuff() {
-    console.log(CoreAssistant);
+  public async getCoreRules(): Promise<void> {
+    return this.assistantService.getCoreRules();
   }
 
   @Post()
@@ -18,6 +17,6 @@ export class AssistantController {
     @Body() body: CreateAssistantDTO,
     @Res() res: Response,
   ): Promise<string> {
-    return this.appService.getAssistant(body, res);
+    return this.assistantService.getAssistant(body, res);
   }
 }

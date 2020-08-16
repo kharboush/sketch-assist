@@ -11,12 +11,21 @@ export class AssistantService {
     requestBody: CreateAssistantDTO,
     res: Response,
   ): Promise<any> {
-    await this.commandService.generatePkg(requestBody);
+    try {
+      await this.commandService.generateAssistantPkg(requestBody);
+      const fileLocation = await this.commandService.generateAssistantFile();
+      res.download(fileLocation);
+      await this.commandService.runCleanup();
+    } catch (err) {
+      return err;
+    }
+  }
 
-    const fileLocation = await this.commandService.generateFile();
-
-    res.download(fileLocation);
-
-    await this.commandService.runCleanup();
+  public async getCoreRules() {
+    try {
+      await this.commandService.downloadRepo('sketch-hq/sketch-assistants');
+    } catch (err) {
+      return err;
+    }
   }
 }

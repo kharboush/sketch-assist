@@ -1,47 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { promises as fs } from 'fs';
+import axios from 'axios';
+import { promises as fsp } from 'fs';
 import * as util from 'util';
-import { PACKAGE_JSON } from './assistant/template/PACKAGE_JSON';
+import { PACKAGE_JSON } from './assistant/template/pkg';
 import { CreateAssistantDTO } from './common/assistant.dto';
-import { TEMPLATE_DIR } from './common/STATIC';
+import { TEMPLATE_DIR } from './common/statics';
 
 @Injectable()
 export class CommandService {
   execute = util.promisify(require('child_process').exec);
-  write = fs.writeFile;
 
-  public async generatePkg(requestBody: CreateAssistantDTO): Promise<void> {
+  public async generateAssistantPkg(
+    requestBody: CreateAssistantDTO,
+  ): Promise<void> {
     const parsedFileName = this.parseTitleToFileName(requestBody.name);
+    const write = fsp.writeFile;
 
-    const userConfig = {
+    const assistantCustomConfig = {
       name: parsedFileName,
       'sketch-assistant': {
         title: requestBody.name || 'Untitled Sketch Assistant',
         description: requestBody.description || 'No description provided.',
+        version: '1.0.0',
         icon: '',
       },
     };
 
-    const options = { ...PACKAGE_JSON, ...userConfig };
+    const options = { ...PACKAGE_JSON, ...assistantCustomConfig };
 
     try {
-      await this.write(
-        `./${TEMPLATE_DIR}/package.json`,
-        JSON.stringify(options),
-      );
+      await write(`./${TEMPLATE_DIR}/package.json`, JSON.stringify(options));
     } catch (err) {
-      return err;
+      console.error(err.message);
     }
   }
 
-  public async generateFile(): Promise<string> {
+  public async generateAssistantFile(): Promise<string> {
     try {
       const { stdout: cmdReponse } = await this.execute(
         `cd ${TEMPLATE_DIR} && npm run package-tarball`,
       );
       return this.getFilePath(cmdReponse);
     } catch (err) {
-      return err;
+      console.error(err.message);
     }
   }
 
@@ -49,6 +50,35 @@ export class CommandService {
     this.execute(
       `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm output/* && rm package.json`,
     );
+  }
+
+  public async downloadRepo(repoName: string): Promise<void> {
+    const url = `https://api.github.com/repos/${repoName}/tarball`;
+    const fileName = `${repoName.split('/')[1]}.tar.gz`;
+    const createFile = require('fs').createWriteStream(`./${fileName}`);
+    const writeToFile = async response => {
+      await response.data.pipe(createFile);
+      return new Promise((resolve, reject) => {
+        createFile.on('finish', () => resolve(true));
+        createFile.on('error', (err: Error) => reject(err));
+      });
+    };
+
+    try {
+      const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+      });
+
+      await writeToFile(response);
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
+  private async unzipFile() {
+    //
   }
 
   private getFilePath(cmdResponse: string): string {
