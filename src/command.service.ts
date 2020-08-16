@@ -10,8 +10,20 @@ export class CommandService {
   execute = util.promisify(require('child_process').exec);
   write = fs.writeFile;
 
-  public async generateJson(requestBody: CreateAssistantDTO): Promise<void> {
-    const options = { ...PACKAGE_JSON, ...requestBody };
+  public async generatePkg(requestBody: CreateAssistantDTO): Promise<void> {
+    const parsedFileName = this.parseTitleToFileName(requestBody.name);
+
+    const userConfig = {
+      name: parsedFileName,
+      'sketch-assistant': {
+        title: requestBody.name,
+        description: requestBody.description,
+        icon: '',
+      },
+    };
+
+    const options = { ...PACKAGE_JSON, ...userConfig };
+
     try {
       await this.write(
         `./${TEMPLATE_DIR}/package.json`,
@@ -43,5 +55,14 @@ export class CommandService {
     const responseMessage: string[] = cmdResponse.split('\n');
     const fileName = responseMessage.find(txt => txt.includes('.tgz'));
     return `${TEMPLATE_DIR}/output/${fileName}`;
+  }
+
+  private parseTitleToFileName(title: string): string {
+    return title
+      .split(' ')
+      .join('-')
+      .split(/[^a-zA-Z-]+/g)
+      .join('')
+      .toLowerCase();
   }
 }

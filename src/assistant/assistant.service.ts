@@ -5,18 +5,18 @@ import { CreateAssistantDTO } from '../common/assistant.dto';
 
 @Injectable()
 export class AssistantService {
-  constructor(private readonly cliService: CommandService) {}
+  constructor(private readonly commandService: CommandService) {}
 
   public async getAssistant(
     requestBody: CreateAssistantDTO,
     res: Response,
   ): Promise<any> {
-    await this.cliService.generateJson(requestBody);
+    await this.commandService.generatePkg(requestBody);
 
-    const fileLocation = await this.cliService.generateFile();
+    const fileLocation = await this.commandService.generateFile();
 
     res.download(fileLocation);
 
-    await this.cliService.runCleanup();
+    await this.commandService.runCleanup();
   }
 }
