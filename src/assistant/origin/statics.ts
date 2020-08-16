@@ -1,0 +1,111 @@
+export const TEMPLATE_DIR = 'src/assistant/origin';
+
+export const RULES = {
+  // '@sketch-hq/sketch-core-assistant/artboards-grid': { active: true },
+  // '@sketch-hq/sketch-core-assistant/artboards-layout': { active: true },
+  // '@sketch-hq/sketch-core-assistant/artboards-max-ungrouped-layers': {
+  //   active: true,
+  // },
+  '@sketch-hq/sketch-core-assistant/borders-no-disabled': { active: true },
+  // '@sketch-hq/sketch-core-assistant/debug-all-options': { active: true },
+  // '@sketch-hq/sketch-core-assistant/debug-i18n': { active: true },
+  // '@sketch-hq/sketch-core-assistant/debug-throws-error': { active: true },
+  // '@sketch-hq/sketch-core-assistant/debug-timeout': { active: true },
+  '@sketch-hq/sketch-core-assistant/exported-layers-normal-blend-mode': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/fills-no-disabled': { active: true },
+  // '@sketch-hq/sketch-core-assistant/groups-max-layers': { active: true },
+  '@sketch-hq/sketch-core-assistant/groups-no-empty': { active: true },
+  '@sketch-hq/sketch-core-assistant/groups-no-redundant': { active: true },
+  '@sketch-hq/sketch-core-assistant/groups-no-similar': { active: true },
+  '@sketch-hq/sketch-core-assistant/images-no-outsized': { active: true },
+  '@sketch-hq/sketch-core-assistant/images-no-undersized': { active: true },
+  '@sketch-hq/sketch-core-assistant/inner-shadows-no-disabled': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/layer-styles-no-dirty': { active: true },
+  '@sketch-hq/sketch-core-assistant/layer-styles-prefer-shared': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/layers-no-hidden': { active: true },
+  '@sketch-hq/sketch-core-assistant/layers-no-loose': { active: true },
+  '@sketch-hq/sketch-core-assistant/layers-subpixel-positioning': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/library-layer-styles-allowed-libraries': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/library-symbols-allowed-libraries': {
+    active: true,
+  },
+  '@sketch-hq/sketch-core-assistant/library-text-styles-allowed-libraries': {
+    active: true,
+  },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-artboards': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-groups': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-images': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-pages': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-shapes': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-symbols': { active: true },
+  // '@sketch-hq/sketch-core-assistant/name-pattern-text': { active: true },
+  // '@sketch-hq/sketch-core-assistant/result-messages-include': { active: true },
+  '@sketch-hq/sketch-core-assistant/shadows-no-disabled': { active: true },
+  '@sketch-hq/sketch-core-assistant/shared-styles-no-unused': { active: true },
+  '@sketch-hq/sketch-core-assistant/symbols-no-detached': { active: true },
+  '@sketch-hq/sketch-core-assistant/symbols-no-unused': { active: true },
+  '@sketch-hq/sketch-core-assistant/text-styles-no-dirty': { active: true },
+  '@sketch-hq/sketch-core-assistant/text-styles-prefer-shared': {
+    active: true,
+  },
+};
+
+export const PACKAGE_JSON = {
+  name: 'sketch-assistant',
+  homepage: 'https://github.com/kharboush/sketch-assistant',
+  version: '1.0.0',
+  main: 'dist/index.js',
+  sketch: 'dist/sketch.js',
+  license: 'MIT',
+  'sketch-assistant': {
+    title: 'Sketch Modular Assistant',
+    description: 'Watch this space',
+    icon: '',
+  },
+  author: {
+    name: 'Anton Kharboush',
+  },
+  keywords: [
+    'sketch',
+    'sketch files',
+    'sketch assistant',
+    'public',
+    'assistant',
+    'design ops',
+  ],
+  files: ['dist'],
+  scripts: {
+    test: 'jest --no-cache',
+    build: 'rm -rf dist && npm run build:node && npm run build:sketch',
+    'build:node': 'tsc',
+    'build:sketch': 'webpack',
+    'package-tarball': 'npm run build && npm run pack',
+    pack: '(cd temp/ && exec npm pack ../)',
+  },
+  devDependencies: {
+    '@sketch-hq/sketch-assistant-utils': '6.0.0',
+    '@sketch-hq/sketch-assistant-types': '6.0.0',
+    '@sketch-hq/sketch-core-assistant': '^6.1.0',
+    '@types/jest': '26.0.4',
+    '@types/node': '14.0.22',
+    eslint: '^7.7.0',
+    jest: '26.1.0',
+    'node-fetch': '2.6.0',
+    prettier: '2.0.5',
+    'ts-jest': '26.1.2',
+    typescript: '3.9.6',
+    webpack: '4.43.0',
+    'webpack-cli': '3.3.12',
+  },
+  dependencies: {},
+};
