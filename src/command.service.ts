@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as fs from 'fs';
 import * as util from 'util';
-import { PACKAGE_JSON, RULES, TEMPLATE_DIR } from './assistant/origin/statics';
-import { CreateAssistantDTO } from './common/assistant.dto';
+import { PACKAGE_JSON, TEMPLATE_DIR } from './assistant/origin/statics';
+import { CreateAssistantDTO } from './assistant/assistant.dto';
 
 @Injectable()
 export class CommandService {
@@ -17,14 +17,13 @@ export class CommandService {
 
     const assistantCustomConfig = {
       name: parsedFileName,
+      version: requestBody.version || '1.0.0',
       'sketch-assistant': {
         title: requestBody.name || 'Untitled Sketch Assistant',
         description: requestBody.description || 'No description provided.',
-        version: '1.0.0',
-        icon: '',
+        icon: requestBody.icon || '',
       },
     };
-
     const options = { ...PACKAGE_JSON, ...assistantCustomConfig };
 
     try {
@@ -37,13 +36,24 @@ export class CommandService {
     }
   }
 
-  public async generateAssistantRules(): Promise<void> {
-    const rules = RULES;
-
+  public async generateAssistantRules(
+    requestBody: CreateAssistantDTO,
+  ): Promise<void> {
+    const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
+    const populatedRules = {};
+    requestBody.assistants.forEach(ast => {
+      ast.rules.forEach(rule => {
+        populatedRules[`${ast.assistant}/${rule.name}`] = rule.config;
+      });
+    });
+    console.log(populatedRules);
     try {
+      await fs.promises.unlink(configLocation);
       await this.write(
-        `./${TEMPLATE_DIR}/src/rules.json`,
-        `${JSON.stringify(rules)}`,
+        configLocation,
+        `import CoreAssistant from '@sketch-hq/sketch-core-assistant';
+export const extendedAssistants = [CoreAssistant];
+export const rules = ${JSON.stringify(populatedRules)};`,
       );
     } catch (err) {
       console.error(err.message);
@@ -62,9 +72,19 @@ export class CommandService {
   }
 
   public async runCleanup(): Promise<void> {
-    await this.execute(
-      `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm temp/* && rm package.json`,
-    );
+    const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
+    try {
+      await this.execute(
+        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm temp/* && rm package.json`,
+      );
+      await fs.promises.unlink(configLocation);
+      await this.write(
+        configLocation,
+        `export const extendedAssistants = []; export const rules = {};`,
+      );
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   public async downloadRepo(repoName: string): Promise<void> {
@@ -94,11 +114,8 @@ export class CommandService {
     }
   }
 
-  private async unzipFile(location) {
-    // fs.createReadStream(location)
-    //   .pipe(tar.extract(`./`))
-    //   .on('finish', () => console.log('Done'))
-    //   .on('error', err => console.error(err));
+  private async unzipFile(location: string) {
+    return location;
   }
 
   private getFilePath(cmdResponse: string): string {
