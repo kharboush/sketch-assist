@@ -1,9 +1,7 @@
-export const TEMPLATE_DIR = 'src/assistant/origin';
-
 const config = {
   active: false,
 };
-export const RULES = [
+export const allRules = [
   {
     assistant: '@sketch-hq/sketch-core-assistant',
     rules: [
@@ -206,7 +204,7 @@ export const RULES = [
   },
 ];
 
-export const PACKAGE_JSON = {
+export const pkgTemplate = {
   name: 'sketch-assistant',
   homepage: 'https://github.com/kharboush/sketch-assistant',
   version: '1.0.0',

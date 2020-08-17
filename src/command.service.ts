@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import * as util from 'util';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateAssistantDTO } from './assistant/assistant.dto';
-import { PACKAGE_JSON } from './assistant/origin/statics';
+import { pkgTemplate } from './assistant/origin/statics';
 
 @Injectable()
 export class CommandService {
@@ -23,7 +23,7 @@ export class CommandService {
   ): Promise<void> {
     const parsedFileName = this.parseTitleToFileName(requestBody.name);
 
-    const assistantCustomConfig = {
+    const userPref = {
       name: parsedFileName,
       version: requestBody.version || '1.0.0',
       'sketch-assistant': {
@@ -32,7 +32,7 @@ export class CommandService {
         icon: requestBody.icon || '',
       },
     };
-    const options = { ...PACKAGE_JSON, ...assistantCustomConfig };
+    const options = { ...pkgTemplate, ...userPref };
 
     try {
       console.log('Generating package.json file...');
@@ -80,10 +80,10 @@ export const rules = ${JSON.stringify(populatedRules)};
         `cd ${this.generatedDir} && npm run package-tarball`,
       );
       console.log(cmdReponse);
-      const { stdout: stdout3 } = await this.execute(
+      const { stdout: fileCreatedName } = await this.execute(
         `cd ${this.generatedDir}/out && ls`,
       );
-      console.log('File created:', stdout3);
+      console.log('File created:', fileCreatedName);
       return this.getFilePath(cmdReponse);
     } catch (err) {
       console.error(err.message);
@@ -93,6 +93,7 @@ export const rules = ${JSON.stringify(populatedRules)};
   public async runCleanup(): Promise<void> {
     try {
       await this.execute(`rm -rf ${this.generatedDir}`);
+      'Directory cleaned up!';
     } catch (err) {
       console.error(err.message);
     }

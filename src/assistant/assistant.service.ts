@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { CommandService } from '../command.service';
 import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
-import { RULES } from './origin/statics';
+import { allRules } from './origin/statics';
 
 @Injectable()
 export class AssistantService {
@@ -26,6 +26,6 @@ export class AssistantService {
   }
 
   public async getAllRules(): Promise<ReturnAssistantDTO[]> {
-    return RULES;
+    return allRules;
   }
 }
