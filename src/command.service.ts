@@ -69,6 +69,7 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
   public async generateAssistantFile(): Promise<string> {
     try {
       console.log('Generating assistant file...');
+      await this.execute(`cd ${TEMPLATE_DIR} && npm install`);
       const { stdout: cmdReponse } = await this.execute(
         `cd ${TEMPLATE_DIR} && npm run package-tarball`,
       );
@@ -85,10 +86,9 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async runCleanup(): Promise<void> {
     try {
-      const { stdout } = await this.execute(
+      await this.execute(
         `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
       );
-      console.log('Cleanup log: ', stdout);
       await fs.promises.unlink(this.configLocation);
       console.log('User config cleared', this.configLocation);
     } catch (err) {
