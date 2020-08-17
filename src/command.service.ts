@@ -73,16 +73,16 @@ export const rules = ${JSON.stringify(populatedRules)};`,
   }
 
   public async runCleanup(): Promise<void> {
-    const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
+    // const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
     try {
       await this.execute(
         `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm temp/* && rm package.json`,
       );
-      await fs.promises.unlink(configLocation);
-      await this.write(
-        configLocation,
-        `export const extendedAssistants = []; export const rules = {};`,
-      );
+      // await fs.promises.unlink(configLocation);
+      // await this.write(
+      //   configLocation,
+      //   `export const extendedAssistants = []; export const rules = {};`,
+      // );
     } catch (err) {
       console.error(err.message);
     }
