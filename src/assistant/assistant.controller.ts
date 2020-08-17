@@ -7,7 +7,7 @@ import { AssistantService } from './assistant.service';
 export class AssistantController {
   constructor(private readonly assistantService: AssistantService) {}
 
-  @Get('rules')
+  @Get()
   public async getAllRules(): Promise<ReturnAssistantDTO[]> {
     return this.assistantService.getAllRules();
   }
