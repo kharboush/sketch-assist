@@ -84,36 +84,36 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
     }
   }
 
-  public async downloadRepo(repoName: string): Promise<void> {
-    const url = `https://api.github.com/repos/${repoName}/tarball`;
-    const fileName = `${repoName.split('/')[1]}.tar.gz`;
-    const fileLocation = `./${TEMPLATE_DIR}/out/${fileName}`;
-    const createFile = fs.createWriteStream(fileLocation);
+  // public async downloadRepo(repoName: string): Promise<void> {
+  //   const url = `https://api.github.com/repos/${repoName}/tarball`;
+  //   const fileName = `${repoName.split('/')[1]}.tar.gz`;
+  //   const fileLocation = `./${TEMPLATE_DIR}/out/${fileName}`;
+  //   const createFile = fs.createWriteStream(fileLocation);
 
-    const writeToFile = async response => {
-      await response.data.pipe(createFile);
-      return new Promise((resolve, reject) => {
-        createFile.on('finish', () => resolve(true));
-        createFile.on('error', (err: Error) => reject(err));
-      });
-    };
+  //   const writeToFile = async response => {
+  //     await response.data.pipe(createFile);
+  //     return new Promise((resolve, reject) => {
+  //       createFile.on('finish', () => resolve(true));
+  //       createFile.on('error', (err: Error) => reject(err));
+  //     });
+  //   };
 
-    try {
-      const response = await axios({
-        url,
-        method: 'GET',
-        responseType: 'stream',
-      });
-      await writeToFile(response);
-      await this.unzipFile(fileLocation);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
+  //   try {
+  //     const response = await axios({
+  //       url,
+  //       method: 'GET',
+  //       responseType: 'stream',
+  //     });
+  //     await writeToFile(response);
+  //     await this.unzipFile(fileLocation);
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // }
 
-  private async unzipFile(location: string) {
-    return location;
-  }
+  // private async unzipFile(location: string) {
+  //   return location;
+  // }
 
   private getFilePath(cmdResponse: string): string {
     const responseArray: string[] = cmdResponse.split('\n');

@@ -16,7 +16,7 @@ export class AssistantService {
       await this.commandService.generateAssistantRules(requestBody);
       await this.commandService.generateAssistantPkg(requestBody);
       const fileLocation = await this.commandService.generateAssistantFile();
-      res.download(fileLocation);
+      // res.download(fileLocation);
       await this.commandService.runCleanup();
     } catch (err) {
       return err;
