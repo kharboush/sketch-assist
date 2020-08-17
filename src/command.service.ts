@@ -86,7 +86,7 @@ export const rules = ${JSON.stringify(populatedRules)};
   public async runCleanup(): Promise<void> {
     try {
       await this.execute(
-        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
+        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm package.json && rm out/*`,
       );
       await fs.promises.unlink(this.configLocation);
       console.log('User config cleared', this.configLocation);
