@@ -1,5 +1,15 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  Res,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Response } from 'express';
+import path from 'path';
 import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
 import { AssistantService } from './assistant.service';
 
@@ -15,8 +25,15 @@ export class AssistantController {
   @Get('/assistant/:id')
   public async getAssistant(
     @Res() res: Response,
-  ): Promise<ReturnAssistantDTO[]> {
-    return this.assistantService.getAssistant(res, 'asd');
+    @Param('id') id: string,
+  ): Promise<void> {
+    const foundCheck = await this.assistantService.getAssistant(res, id);
+
+    if (foundCheck && !foundCheck.folder) {
+      throw new NotFoundException('Assistant not found!');
+    } else if (foundCheck && !foundCheck.file) {
+      throw new UnauthorizedException('Resource still being processed...');
+    }
   }
 
   @Post('assistant')

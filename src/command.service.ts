@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import * as fs from 'fs';
 import * as util from 'util';
 import { CreateAssistantDTO } from './assistant/assistant.dto';
@@ -7,10 +7,10 @@ import { pkgTemplate } from './assistant/origin/statics';
 @Injectable()
 export class CommandService {
   execute = util.promisify(require('child_process').exec);
+  write = fs.promises.writeFile;
   generatedId = '';
   generatedDir = '';
   configLocation = '';
-  write = fs.promises.writeFile;
 
   public async generateAssistantDir(generatedId: string): Promise<void> {
     this.generatedId = generatedId;
@@ -93,14 +93,14 @@ export const rules = ${JSON.stringify(populatedRules)};
     }
   }
 
-  public async runCleanup(): Promise<void> {
-    try {
-      await this.execute(`rm -rf ${this.generatedDir}`);
-      'Directory cleaned up!';
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
+  // public async runCleanup(): Promise<void> {
+  //   try {
+  //     await this.execute(`rm -rf ${this.generatedDir}`);
+  //     'Directory cleaned up!';
+  //   } catch (err) {
+  //     console.error(err.message);
+  //   }
+  // }
 
   // public async downloadRepo(repoName: string): Promise<void> {
   //   const url = `https://api.github.com/repos/${repoName}/tarball`;
@@ -133,10 +133,41 @@ export const rules = ${JSON.stringify(populatedRules)};
   //   return location;
   // }
 
-  private getFilePath(cmdResponse: string): string {
-    const responseArray: string[] = cmdResponse.split('\n');
-    const fileName = responseArray.find(txt => txt.includes('.tgz'));
-    return `${this.generatedDir}/out/${fileName}`;
+  public async getFilePath(id: string): Promise<any> {
+    const generatedDir = `src/assistant/generated`;
+    const dirToSearch = `${generatedDir}/${id}`;
+    const loc = {
+      file: '',
+      folder: '',
+    };
+
+    const { stdout: cmdResponseFolderCheck } = await this.execute(
+      `cd ${generatedDir} && ls`,
+    );
+    const responseArray = cmdResponseFolderCheck.split('\n');
+
+    if (!responseArray.includes(id)) {
+      return loc;
+    } else {
+      loc.folder = dirToSearch;
+      const { stdout: cmdReponseFileCheck } = await this.execute(
+        `cd ${dirToSearch}/out && ls`,
+      );
+      const responseArray = cmdReponseFileCheck.split('\n');
+      const foundFile = responseArray.find(file => file.includes('tgz'));
+
+      if (!foundFile) {
+        return loc;
+      } else {
+        loc.file = `${dirToSearch}/out/${foundFile}`;
+      }
+    }
+    return loc;
+  }
+
+  public async deleteAssistantFile(location: string): Promise<void> {
+    await this.execute(`rm -rf ${location}`);
+    console.log(`Deleted directory: ${location}`);
   }
 
   private parseTitleToFileName(title: string): string {

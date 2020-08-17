@@ -10,7 +10,7 @@ export class AssistantService {
   constructor(private readonly commandService: CommandService) {}
 
   public async createAssistant(requestBody: CreateAssistantDTO): Promise<any> {
-    const createdId = `assistant-${uuidv4()}`;
+    const createdId = `a-${uuidv4()}`;
     try {
       await this.commandService.generateAssistantDir(createdId);
       const returnAssistantRules = await this.commandService.generateAssistantRules(
@@ -27,12 +27,20 @@ export class AssistantService {
   }
 
   public async getAssistant(res: Response, id: string): Promise<any> {
+    let foundPath = { folder: '', file: '' };
     try {
-      res.download('');
+      foundPath = { ...(await this.commandService.getFilePath(id)) };
+      if (!foundPath?.folder || !foundPath?.file) {
+        return foundPath;
+      }
+
+      res.download(foundPath.file);
     } catch (err) {
       console.log(err);
     } finally {
-      this.commandService.runCleanup();
+      if (foundPath?.folder) {
+        this.commandService.deleteAssistantFile(foundPath.folder);
+      }
     }
   }
 
