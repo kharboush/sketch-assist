@@ -75,9 +75,9 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async runCleanup(): Promise<void> {
     try {
-      await this.execute(
-        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
-      );
+      // await this.execute(
+      //   `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
+      // );
       await fs.promises.unlink(this.configLocation);
     } catch (err) {
       console.error(err.message);
