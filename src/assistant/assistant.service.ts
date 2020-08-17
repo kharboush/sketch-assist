@@ -41,7 +41,9 @@ export class AssistantService {
       console.log(err);
     } finally {
       if (downloaded) {
-        this.commandService.deleteAssistantFile(foundPath.folder);
+        setTimeout(() => {
+          this.commandService.deleteAssistantFile(foundPath.folder);
+        }, 30000);
       }
     }
   }
