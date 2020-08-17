@@ -69,7 +69,6 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
   public async generateAssistantFile(): Promise<string> {
     try {
       console.log('Generating assistant file...');
-      await this.execute(`cd ${TEMPLATE_DIR} && npm install`);
       const { stdout: cmdReponse } = await this.execute(
         `cd ${TEMPLATE_DIR} && npm run package-tarball`,
       );
