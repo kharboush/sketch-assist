@@ -12,11 +12,17 @@ export class AssistantController {
     return this.assistantService.getAllRules();
   }
 
+  @Get('/assistant/:id')
+  public async getAssistant(
+    @Res() res: Response,
+  ): Promise<ReturnAssistantDTO[]> {
+    return this.assistantService.getAssistant(res, 'asd');
+  }
+
   @Post('assistant')
   public async createAssistant(
     @Body() body: CreateAssistantDTO,
-    @Res() res: Response,
   ): Promise<string> {
-    return this.assistantService.createAssistant(body, res);
+    return this.assistantService.createAssistant(body);
   }
 }

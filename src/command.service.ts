@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as util from 'util';
-import { v4 as uuidv4 } from 'uuid';
 import { CreateAssistantDTO } from './assistant/assistant.dto';
 import { pkgTemplate } from './assistant/origin/statics';
 
 @Injectable()
 export class CommandService {
   execute = util.promisify(require('child_process').exec);
-  generatedName = `assistant-${uuidv4()}`;
-  generatedDir = `src/assistant/${this.generatedName}`;
-  configLocation: string;
+  generatedId = '';
+  generatedDir = '';
+  configLocation = '';
   write = fs.promises.writeFile;
 
-  public async generateAssistantDir(): Promise<void> {
+  public async generateAssistantDir(generatedId: string): Promise<void> {
+    this.generatedId = generatedId;
+    this.generatedDir = `src/assistant/generated/${this.generatedId}`;
     await this.execute(`cp -r src/assistant/origin ${this.generatedDir}`);
     this.configLocation = `./${this.generatedDir}/src/config.ts`;
   }
 
   public async generateAssistantPkg(
     requestBody: CreateAssistantDTO,
-  ): Promise<void> {
+  ): Promise<any> {
     const parsedFileName = this.parseTitleToFileName(requestBody.name);
 
     const userPref = {
@@ -44,11 +45,12 @@ export class CommandService {
     } catch (err) {
       console.error(err.message);
     }
+    return { id: this.generatedId, ...userPref };
   }
 
   public async generateAssistantRules(
     requestBody: CreateAssistantDTO,
-  ): Promise<void> {
+  ): Promise<any> {
     const populatedRules = requestBody.assistants.reduce((rules, req) => {
       req.rules.forEach(rule => {
         rules[`${req.assistant}/${rule.name}`] = rule.config;
@@ -68,6 +70,7 @@ export const rules = ${JSON.stringify(populatedRules)};
         `,
       );
       console.log('config file created');
+      return populatedRules;
     } catch (err) {
       console.error(err.message);
     }
