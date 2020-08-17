@@ -1,15 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import * as fs from 'fs';
 import * as util from 'util';
-import { PACKAGE_JSON, TEMPLATE_DIR } from './assistant/origin/statics';
+import { v4 as uuidv4 } from 'uuid';
 import { CreateAssistantDTO } from './assistant/assistant.dto';
+import { PACKAGE_JSON } from './assistant/origin/statics';
 
 @Injectable()
 export class CommandService {
   execute = util.promisify(require('child_process').exec);
-  configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
+  generatedName = `assistant-${uuidv4()}`;
+  generatedDir = `src/assistant/${this.generatedName}`;
+  configLocation: string;
   write = fs.promises.writeFile;
+
+  public async generateAssistantDir(): Promise<void> {
+    await this.execute(`cp -r src/assistant/origin ${this.generatedDir}`);
+    this.configLocation = `./${this.generatedDir}/src/config.ts`;
+  }
 
   public async generateAssistantPkg(
     requestBody: CreateAssistantDTO,
@@ -30,7 +37,7 @@ export class CommandService {
     try {
       console.log('Generating package.json file...');
       await this.write(
-        `./${TEMPLATE_DIR}/package.json`,
+        `./${this.generatedDir}/package.json`,
         JSON.stringify(options),
       );
       console.log('package.json created');
@@ -70,11 +77,11 @@ export const rules = ${JSON.stringify(populatedRules)};
     try {
       console.log('Generating assistant file...');
       const { stdout: cmdReponse } = await this.execute(
-        `cd ${TEMPLATE_DIR} && npm run package-tarball`,
+        `cd ${this.generatedDir} && npm run package-tarball`,
       );
       console.log(cmdReponse);
       const { stdout: stdout3 } = await this.execute(
-        `cd ${TEMPLATE_DIR}/out && ls`,
+        `cd ${this.generatedDir}/out && ls`,
       );
       console.log('File created:', stdout3);
       return this.getFilePath(cmdReponse);
@@ -85,11 +92,7 @@ export const rules = ${JSON.stringify(populatedRules)};
 
   public async runCleanup(): Promise<void> {
     try {
-      await this.execute(
-        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm package.json && rm out/*`,
-      );
-      await fs.promises.unlink(this.configLocation);
-      console.log('User config cleared', this.configLocation);
+      await this.execute(`rm -rf ${this.generatedDir}`);
     } catch (err) {
       console.error(err.message);
     }
@@ -98,7 +101,7 @@ export const rules = ${JSON.stringify(populatedRules)};
   // public async downloadRepo(repoName: string): Promise<void> {
   //   const url = `https://api.github.com/repos/${repoName}/tarball`;
   //   const fileName = `${repoName.split('/')[1]}.tar.gz`;
-  //   const fileLocation = `./${TEMPLATE_DIR}/out/${fileName}`;
+  //   const fileLocation = `./${this.generatedDIr}/out/${fileName}`;
   //   const createFile = fs.createWriteStream(fileLocation);
 
   //   const writeToFile = async response => {
@@ -129,7 +132,7 @@ export const rules = ${JSON.stringify(populatedRules)};
   private getFilePath(cmdResponse: string): string {
     const responseArray: string[] = cmdResponse.split('\n');
     const fileName = responseArray.find(txt => txt.includes('.tgz'));
-    return `${TEMPLATE_DIR}/out/${fileName}`;
+    return `${this.generatedDir}/out/${fileName}`;
   }
 
   private parseTitleToFileName(title: string): string {
