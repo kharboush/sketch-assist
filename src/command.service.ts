@@ -48,8 +48,6 @@ export class CommandService {
       return rules;
     }, {});
 
-    // console.log(populatedRules);
-
     try {
       await fs.promises.unlink(configLocation);
       await this.write(
