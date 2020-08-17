@@ -40,13 +40,16 @@ export class CommandService {
     requestBody: CreateAssistantDTO,
   ): Promise<void> {
     const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
-    const populatedRules = {};
-    requestBody.assistants.forEach(ast => {
-      ast.rules.forEach(rule => {
-        populatedRules[`${ast.assistant}/${rule.name}`] = rule.config;
+    const populatedRules = requestBody.assistants.reduce((rules, req) => {
+      req.rules.forEach(rule => {
+        rules[`${req.assistant}/${rule.name}`] = rule.config;
       });
-    });
-    console.log(populatedRules);
+
+      return rules;
+    }, {});
+
+    // console.log(populatedRules);
+
     try {
       await fs.promises.unlink(configLocation);
       await this.write(

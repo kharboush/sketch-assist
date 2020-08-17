@@ -1,27 +1,38 @@
-import { IsNotEmpty, Length } from 'class-validator';
+import {
+  IsNotEmpty,
+  isNotEmptyObject,
+  IsOptional,
+  Length,
+} from 'class-validator';
 
 export class CreateAssistantDTO {
-  @Length(2, 24)
   @IsNotEmpty()
+  @Length(3, 36)
   name: string;
-  @Length(2, 24)
   @IsNotEmpty()
+  @Length(6, 72)
   description: string;
-  @Length(2, 24)
-  @IsNotEmpty()
+  @IsOptional()
+  @Length(1, 9)
   version: string;
-  @IsNotEmpty()
+  @IsOptional()
   icon: string;
   @IsNotEmpty()
   assistants: ReturnAssistantDTO[];
 }
 
 export class ReturnAssistantDTO {
+  @IsNotEmpty()
+  @Length(3, 36)
   assistant: string;
+  @IsNotEmpty()
   rules: RuleDTO[];
 }
 
 class RuleDTO {
+  @IsNotEmpty()
+  @Length(3, 36)
   name: string;
+  @IsNotEmpty()
   config: any;
 }

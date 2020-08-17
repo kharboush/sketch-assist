@@ -7,12 +7,12 @@ import { AssistantService } from './assistant.service';
 export class AssistantController {
   constructor(private readonly assistantService: AssistantService) {}
 
-  @Get()
+  @Get('rules')
   public async getAllRules(): Promise<ReturnAssistantDTO[]> {
     return this.assistantService.getAllRules();
   }
 
-  @Post()
+  @Post('assistant')
   public async createAssistant(
     @Body() body: CreateAssistantDTO,
     @Res() res: Response,
