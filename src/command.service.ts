@@ -142,7 +142,7 @@ export const rules = ${JSON.stringify(populatedRules)};
     };
 
     const { stdout: cmdResponseFolderCheck } = await this.execute(
-      `cd ${generatedDir} && ls`,
+      `ls ${generatedDir}`,
     );
     const responseArray = cmdResponseFolderCheck.split('\n');
 
