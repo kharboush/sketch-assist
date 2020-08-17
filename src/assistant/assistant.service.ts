@@ -13,7 +13,7 @@ export class AssistantService {
     res: Response,
   ): Promise<any> {
     try {
-      // await this.commandService.generateAssistantRules(requestBody);
+      await this.commandService.generateAssistantRules(requestBody);
       await this.commandService.generateAssistantPkg(requestBody);
       const fileLocation = await this.commandService.generateAssistantFile();
       res.download(fileLocation);

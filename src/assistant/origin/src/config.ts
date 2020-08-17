@@ -1,1 +1,0 @@
-export const extendedAssistants = []; export const rules = {};

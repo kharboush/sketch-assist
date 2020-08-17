@@ -8,6 +8,7 @@ import { CreateAssistantDTO } from './assistant/assistant.dto';
 @Injectable()
 export class CommandService {
   execute = util.promisify(require('child_process').exec);
+  configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
   write = fs.promises.writeFile;
 
   public async generateAssistantPkg(
@@ -39,7 +40,6 @@ export class CommandService {
   public async generateAssistantRules(
     requestBody: CreateAssistantDTO,
   ): Promise<void> {
-    const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
     const populatedRules = requestBody.assistants.reduce((rules, req) => {
       req.rules.forEach(rule => {
         rules[`${req.assistant}/${rule.name}`] = rule.config;
@@ -49,12 +49,13 @@ export class CommandService {
     }, {});
 
     try {
-      await fs.promises.unlink(configLocation);
       await this.write(
-        configLocation,
-        `import CoreAssistant from '@sketch-hq/sketch-core-assistant';
+        this.configLocation,
+        `
+const CoreAssistant = require('@sketch-hq/sketch-core-assistant');
 export const extendedAssistants = [CoreAssistant];
-export const rules = ${JSON.stringify(populatedRules)};`,
+export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
+        `,
       );
     } catch (err) {
       console.error(err.message);
@@ -73,16 +74,11 @@ export const rules = ${JSON.stringify(populatedRules)};`,
   }
 
   public async runCleanup(): Promise<void> {
-    // const configLocation = `./${TEMPLATE_DIR}/src/config.ts`;
     try {
       await this.execute(
-        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm temp/* && rm package.json`,
+        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
       );
-      // await fs.promises.unlink(configLocation);
-      // await this.write(
-      //   configLocation,
-      //   `export const extendedAssistants = []; export const rules = {};`,
-      // );
+      await fs.promises.unlink(this.configLocation);
     } catch (err) {
       console.error(err.message);
     }
@@ -91,7 +87,7 @@ export const rules = ${JSON.stringify(populatedRules)};`,
   public async downloadRepo(repoName: string): Promise<void> {
     const url = `https://api.github.com/repos/${repoName}/tarball`;
     const fileName = `${repoName.split('/')[1]}.tar.gz`;
-    const fileLocation = `./${TEMPLATE_DIR}/temp/${fileName}`;
+    const fileLocation = `./${TEMPLATE_DIR}/out/${fileName}`;
     const createFile = fs.createWriteStream(fileLocation);
 
     const writeToFile = async response => {
@@ -122,7 +118,7 @@ export const rules = ${JSON.stringify(populatedRules)};`,
   private getFilePath(cmdResponse: string): string {
     const responseArray: string[] = cmdResponse.split('\n');
     const fileName = responseArray.find(txt => txt.includes('.tgz'));
-    return `${TEMPLATE_DIR}/temp/${fileName}`;
+    return `${TEMPLATE_DIR}/out/${fileName}`;
   }
 
   private parseTitleToFileName(title: string): string {

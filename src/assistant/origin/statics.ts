@@ -236,7 +236,7 @@ export const PACKAGE_JSON = {
     'build:node': 'tsc',
     'build:sketch': 'webpack',
     'package-tarball': 'npm run build && npm run pack',
-    pack: '(cd temp/ && exec npm pack ../)',
+    pack: '(cd out/ && exec npm pack ../)',
   },
   devDependencies: {
     '@sketch-hq/sketch-assistant-utils': '6.0.0',

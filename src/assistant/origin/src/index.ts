@@ -1,11 +1,14 @@
 import { AssistantPackage } from '@sketch-hq/sketch-assistant-types';
-import { extendedAssistants, rules } from './config';
+
+const rules = require('./config.js').rules;
+const extendedAssistants = require('./config.js').extendedAssistants;
+const packageName = require('../package.json').name;
 
 const assistant: AssistantPackage = [
   ...extendedAssistants,
   async () => {
     return {
-      name: require('../package.json').name || 'untitled-assistant',
+      name: packageName || 'untitled-assistant',
       rules: [],
       config: {
         rules,
