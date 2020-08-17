@@ -32,6 +32,7 @@ export class CommandService {
         `./${TEMPLATE_DIR}/package.json`,
         JSON.stringify(options),
       );
+      console.log('package.json created');
     } catch (err) {
       console.error(err.message);
     }
@@ -57,6 +58,7 @@ export const extendedAssistants = [CoreAssistant];
 export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
         `,
       );
+      console.log('config file created');
     } catch (err) {
       console.error(err.message);
     }
@@ -64,7 +66,6 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async generateAssistantFile(): Promise<string> {
     try {
-      // const { stdout } = await this.execute(`cd ${TEMPLATE_DIR} && ls`);
       const { stdout: stdout2 } = await this.execute(
         `cd ${TEMPLATE_DIR}/src && ls`,
       );
@@ -76,7 +77,7 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
       const { stdout: stdout3 } = await this.execute(
         `cd ${TEMPLATE_DIR}/out && ls`,
       );
-      console.log(stdout3);
+      console.log('File created:', stdout3);
       return this.getFilePath(cmdReponse);
     } catch (err) {
       console.error(err.message);
@@ -85,10 +86,12 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async runCleanup(): Promise<void> {
     try {
-      await this.execute(
+      const { stdout } = await this.execute(
         `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
       );
+      console.log('Cleanup log: ', stdout);
       await fs.promises.unlink(this.configLocation);
+      console.log('User config cleared', this.configLocation);
     } catch (err) {
       console.error(err.message);
     }
