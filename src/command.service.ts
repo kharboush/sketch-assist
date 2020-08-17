@@ -64,9 +64,19 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async generateAssistantFile(): Promise<string> {
     try {
+      // const { stdout } = await this.execute(`cd ${TEMPLATE_DIR} && ls`);
+      const { stdout: stdout2 } = await this.execute(
+        `cd ${TEMPLATE_DIR}/src && ls`,
+      );
+      console.log(stdout2);
       const { stdout: cmdReponse } = await this.execute(
         `cd ${TEMPLATE_DIR} && npm run package-tarball`,
       );
+      console.log(cmdReponse);
+      const { stdout: stdout3 } = await this.execute(
+        `cd ${TEMPLATE_DIR}/out && ls`,
+      );
+      console.log(stdout3);
       return this.getFilePath(cmdReponse);
     } catch (err) {
       console.error(err.message);
@@ -75,9 +85,9 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async runCleanup(): Promise<void> {
     try {
-      // await this.execute(
-      //   `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
-      // );
+      await this.execute(
+        `cd ${TEMPLATE_DIR} && rm -rf dist && rm -rf node_modules && rm out/* && rm package.json`,
+      );
       await fs.promises.unlink(this.configLocation);
     } catch (err) {
       console.error(err.message);
