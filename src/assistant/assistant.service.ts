@@ -38,7 +38,7 @@ export class AssistantService {
     } catch (err) {
       console.log(err);
     } finally {
-      if (foundPath?.folder) {
+      if (foundPath?.folder && foundPath?.file) {
         this.commandService.deleteAssistantFile(foundPath.folder);
       }
     }

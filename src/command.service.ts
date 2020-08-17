@@ -84,7 +84,7 @@ export const rules = ${JSON.stringify(populatedRules)};
       );
       console.log(cmdReponse);
       const { stdout: fileCreatedName } = await this.execute(
-        `cd ${this.generatedDir}/out && ls`,
+        `ls ${this.generatedDir}/out`,
       );
       console.log('File created:', fileCreatedName);
       return this.getFilePath(cmdReponse);
