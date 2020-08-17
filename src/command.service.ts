@@ -151,7 +151,7 @@ export const rules = ${JSON.stringify(populatedRules)};
     } else {
       loc.folder = dirToSearch;
       const { stdout: cmdReponseFileCheck } = await this.execute(
-        `cd ${dirToSearch}/out && ls`,
+        `ls ${dirToSearch}/out`,
       );
       const responseArray = cmdReponseFileCheck.split('\n');
       const foundFile = responseArray.find(file => file.includes('tgz'));
