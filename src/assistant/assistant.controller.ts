@@ -9,7 +9,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import path from 'path';
 import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
 import { AssistantService } from './assistant.service';
 

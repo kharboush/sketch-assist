@@ -165,9 +165,8 @@ export const rules = ${JSON.stringify(populatedRules)};
     return loc;
   }
 
-  public async deleteAssistantFile(location: string): Promise<void> {
+  public async deleteLocation(location: string): Promise<void> {
     await this.execute(`rm -rf ${location}`);
-    console.log(`Deleted directory: ${location}`);
   }
 
   private parseTitleToFileName(title: string): string {
