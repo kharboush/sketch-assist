@@ -28,6 +28,7 @@ export class CommandService {
     const options = { ...PACKAGE_JSON, ...assistantCustomConfig };
 
     try {
+      console.log('Generating package.json file...');
       await this.write(
         `./${TEMPLATE_DIR}/package.json`,
         JSON.stringify(options),
@@ -50,6 +51,7 @@ export class CommandService {
     }, {});
 
     try {
+      console.log('Generating config file...');
       await this.write(
         this.configLocation,
         `
@@ -66,10 +68,7 @@ export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
 
   public async generateAssistantFile(): Promise<string> {
     try {
-      const { stdout: stdout2 } = await this.execute(
-        `cd ${TEMPLATE_DIR}/src && ls`,
-      );
-      console.log(stdout2);
+      console.log('Generating assistant file...');
       const { stdout: cmdReponse } = await this.execute(
         `cd ${TEMPLATE_DIR} && npm run package-tarball`,
       );
