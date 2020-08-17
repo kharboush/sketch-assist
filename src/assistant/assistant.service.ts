@@ -28,6 +28,7 @@ export class AssistantService {
 
   public async getAssistant(res: Response, id: string): Promise<any> {
     let foundPath = { folder: '', file: '' };
+    let downloaded = false;
     try {
       foundPath = { ...(await this.commandService.getFilePath(id)) };
       if (!foundPath?.folder || !foundPath?.file) {
@@ -35,10 +36,11 @@ export class AssistantService {
       }
 
       res.download(foundPath.file);
+      downloaded = true;
     } catch (err) {
       console.log(err);
     } finally {
-      if (foundPath?.folder && foundPath?.file) {
+      if (downloaded) {
         this.commandService.deleteAssistantFile(foundPath.folder);
       }
     }
