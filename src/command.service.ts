@@ -57,7 +57,7 @@ export class CommandService {
         `
 const CoreAssistant = require('@sketch-hq/sketch-core-assistant');
 export const extendedAssistants = [CoreAssistant];
-export const rules = JSON.parse('${JSON.stringify(populatedRules)}');
+export const rules = ${JSON.stringify(populatedRules)};
         `,
       );
       console.log('config file created');
