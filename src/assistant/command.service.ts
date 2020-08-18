@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs-extra';
 import * as util from 'util';
-import { CreateAssistantDTO } from './assistant.dto';
+import { CreateAssistantDTO as CreateAsstDTO } from './assistant.dto';
 import { pkgTemplate } from './origin/statics';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class CommandService {
   generatedDir = '';
   configLocation = '';
 
-  public async generateAssistantDir(generatedId: string): Promise<void> {
+  public async genAsstDirFromId(generatedId: string): Promise<void> {
     this.generatedId = generatedId;
     this.generatedDir = `src/assistant/generated/${this.generatedId}`;
     this.configLocation = `./${this.generatedDir}/src/config.ts`;
@@ -20,9 +20,7 @@ export class CommandService {
     await fs.copy('src/assistant/origin', this.generatedDir);
   }
 
-  public async generateAssistantPkg(
-    requestBody: CreateAssistantDTO,
-  ): Promise<any> {
+  public async genAsstPkg(requestBody: CreateAsstDTO): Promise<any> {
     const parsedFileName = this.parseTitleToFileName(requestBody.name);
 
     const userPref = {
@@ -49,9 +47,7 @@ export class CommandService {
     return { id: this.generatedId, ...userPref };
   }
 
-  public async generateAssistantRules(
-    requestBody: CreateAssistantDTO,
-  ): Promise<any> {
+  public async genAsstRules(requestBody: CreateAsstDTO): Promise<any> {
     const populatedRules = requestBody.assistants.reduce((rules, req) => {
       req.rules.forEach(rule => {
         rules[`${req.assistant}/${rule.name}`] = rule.config;
@@ -77,7 +73,7 @@ export const rules = ${JSON.stringify(populatedRules)};
     }
   }
 
-  public async generateAssistantFile(): Promise<string> {
+  public async genAsstFile(): Promise<void> {
     try {
       console.log('Generating assistant file...');
       const { stdout: cmdReponse } = await this.execute(
@@ -85,38 +81,23 @@ export const rules = ${JSON.stringify(populatedRules)};
       );
       console.log(cmdReponse);
       console.log('File created!');
-      return this.getFilePath(cmdReponse);
     } catch (err) {
       console.error(err.message);
     }
   }
+  public async findAsstDirByLoc(location: string): Promise<boolean> {
+    return await fs.pathExists(location);
+  }
 
-  public async getFilePath(id: string): Promise<any> {
-    const generatedDir = `src/assistant/generated`;
-    const dirToSearch = `${generatedDir}/${id}`;
-    const loc = {
-      file: '',
-      folder: '',
-    };
+  public async getAsstFileByLoc(location: string): Promise<string> {
+    const existingFileArray = await fs.readdir(`${location}/out`);
+    const foundFile = existingFileArray.find((fileName: string) =>
+      fileName.includes('tgz'),
+    );
 
-    const folderExists = await fs.pathExists(dirToSearch);
+    if (!foundFile) return;
 
-    if (!folderExists) {
-      return loc;
-    } else {
-      loc.folder = dirToSearch;
-      const existingFileArray = await fs.readdir(`${dirToSearch}/out`);
-      const foundFile = existingFileArray.find(fileName =>
-        fileName.includes('tgz'),
-      );
-
-      if (!foundFile) {
-        return loc;
-      } else {
-        loc.file = `${dirToSearch}/out/${foundFile}`;
-      }
-    }
-    return loc;
+    return `${location}/out/${foundFile}`;
   }
 
   public async deleteLocation(location: string): Promise<void> {

@@ -47,3 +47,8 @@ class RuleDTO {
   @IsObject()
   config: any;
 }
+
+export class GetAsstResponseDTO {
+  dir: boolean;
+  downloaded: boolean;
+}

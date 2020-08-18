@@ -29,11 +29,11 @@ export class AppController {
     @Res() res: Response,
     @Param('id') id: string,
   ): Promise<void> {
-    const foundCheck = await this.assistantService.getAssistant(res, id);
+    const response = await this.assistantService.getAssistant(res, id);
 
-    if (foundCheck && !foundCheck.folder) {
+    if (response && !response.dir) {
       throw new NotFoundException('Assistant not found!');
-    } else if (foundCheck && !foundCheck.file) {
+    } else if (response && !response.downloaded) {
       throw new ForbiddenException('Assistant still being processed...');
     }
   }

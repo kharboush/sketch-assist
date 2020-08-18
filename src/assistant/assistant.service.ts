@@ -2,50 +2,62 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { CommandService } from './command.service';
-import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
+import {
+  CreateAssistantDTO,
+  ReturnAssistantDTO,
+  GetAsstResponseDTO,
+} from './assistant.dto';
 import { allRules } from './origin/statics';
 
 @Injectable()
 export class AssistantService {
-  constructor(private readonly commandService: CommandService) {}
+  constructor(private readonly cmdServ: CommandService) {}
 
-  public async createAssistant(requestBody: CreateAssistantDTO): Promise<any> {
+  public async createAssistant(reqBody: CreateAssistantDTO): Promise<any> {
     const createdId = `a-${uuidv4()}`;
     try {
-      await this.commandService.generateAssistantDir(createdId);
-      const returnAssistantRules = await this.commandService.generateAssistantRules(
-        requestBody,
-      );
-      const returnAssistantInfo = await this.commandService.generateAssistantPkg(
-        requestBody,
-      );
-      this.commandService.generateAssistantFile();
-      return { ...returnAssistantInfo, rules: returnAssistantRules };
+      await this.cmdServ.genAsstDirFromId(createdId);
+      const asstUserConfig = await this.cmdServ.genAsstPkg(reqBody);
+      const asstRules = await this.cmdServ.genAsstRules(reqBody);
+      this.cmdServ.genAsstFile();
+      return { ...asstUserConfig, rules: asstRules };
     } catch (err) {
       console.error(err);
     }
   }
 
-  public async getAssistant(res: Response, id: string): Promise<any> {
-    let foundPath = { folder: '', file: '' };
-    let downloaded = false;
+  public async getAssistant(
+    res: Response,
+    id: string,
+  ): Promise<GetAsstResponseDTO> {
+    const status = { dir: false, downloaded: false };
+    const dir = `src/assistant/generated/${id}`;
+    let foundFile = '';
 
     try {
-      foundPath = { ...(await this.commandService.getFilePath(id)) };
-      if (!foundPath?.folder || !foundPath?.file) {
-        return foundPath;
+      const foundDir = await this.cmdServ.findAsstDirByLoc(dir);
+
+      if (foundDir) {
+        status.dir = true;
+        foundFile = await this.cmdServ.getAsstFileByLoc(dir);
+        if (!foundFile) {
+          return status;
+        }
+      } else {
+        return status;
       }
 
-      res.download(foundPath.file);
-      downloaded = true;
+      res.download(foundFile);
+      status.downloaded = true;
     } catch (err) {
       console.error(err);
     } finally {
-      if (downloaded) {
+      if (status.downloaded) {
         setTimeout(() => {
-          this.commandService.deleteLocation(foundPath.folder);
+          this.cmdServ.deleteLocation(foundFile);
         }, 5 * 60 * 1000);
       }
+      return status;
     }
   }
 
