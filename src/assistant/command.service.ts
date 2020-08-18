@@ -61,9 +61,9 @@ export class CommandService {
       await this.write(
         this.configLocation,
         `
-const CoreAssistant = require('@sketch-hq/sketch-core-assistant');
-export const extendedAssistants = [CoreAssistant];
-export const rules = ${JSON.stringify(populatedRules)};
+          const CoreAssistant = require('@sketch-hq/sketch-core-assistant');
+          export const extendedAssistants = [CoreAssistant];
+          export const rules = ${JSON.stringify(populatedRules)};
         `,
       );
       console.log('config file created');
