@@ -91,46 +91,6 @@ export const rules = ${JSON.stringify(populatedRules)};
     }
   }
 
-  // public async runCleanup(): Promise<void> {
-  //   try {
-  //     await this.execute(`rm -rf ${this.generatedDir}`);
-  //     'Directory cleaned up!';
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // }
-
-  // public async downloadRepo(repoName: string): Promise<void> {
-  //   const url = `https://api.github.com/repos/${repoName}/tarball`;
-  //   const fileName = `${repoName.split('/')[1]}.tar.gz`;
-  //   const fileLocation = `./${this.generatedDIr}/out/${fileName}`;
-  //   const createFile = fs.createWriteStream(fileLocation);
-
-  //   const writeToFile = async response => {
-  //     await response.data.pipe(createFile);
-  //     return new Promise((resolve, reject) => {
-  //       createFile.on('finish', () => resolve(true));
-  //       createFile.on('error', (err: Error) => reject(err));
-  //     });
-  //   };
-
-  //   try {
-  //     const response = await axios({
-  //       url,
-  //       method: 'GET',
-  //       responseType: 'stream',
-  //     });
-  //     await writeToFile(response);
-  //     await this.unzipFile(fileLocation);
-  //   } catch (err) {
-  //     console.error(err.message);
-  //   }
-  // }
-
-  // private async unzipFile(location: string) {
-  //   return location;
-  // }
-
   public async getFilePath(id: string): Promise<any> {
     const generatedDir = `src/assistant/generated`;
     const dirToSearch = `${generatedDir}/${id}`;
