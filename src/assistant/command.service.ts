@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as util from 'util';
 import { CreateAssistantDTO } from './assistant.dto';
 import { pkgTemplate } from './origin/statics';
@@ -17,7 +17,7 @@ export class CommandService {
     this.generatedDir = `src/assistant/generated/${this.generatedId}`;
     this.configLocation = `./${this.generatedDir}/src/config.ts`;
 
-    await this.execute(`cp -r src/assistant/origin ${this.generatedDir}`);
+    await fs.copy('src/assistant/origin', this.generatedDir);
   }
 
   public async generateAssistantPkg(
@@ -84,10 +84,7 @@ export const rules = ${JSON.stringify(populatedRules)};
         `cd ${this.generatedDir} && npm run package-tarball`,
       );
       console.log(cmdReponse);
-      const { stdout: fileCreatedName } = await this.execute(
-        `ls ${this.generatedDir}/out`,
-      );
-      console.log('File created:', fileCreatedName);
+      console.log('File created!');
       return this.getFilePath(cmdReponse);
     } catch (err) {
       console.error(err.message);
@@ -142,20 +139,16 @@ export const rules = ${JSON.stringify(populatedRules)};
       folder: '',
     };
 
-    const { stdout: cmdResponseFolderCheck } = await this.execute(
-      `ls ${generatedDir}`,
-    );
-    const responseArray = cmdResponseFolderCheck.split('\n');
+    const folderExists = await fs.pathExists(dirToSearch);
 
-    if (!responseArray.includes(id)) {
+    if (!folderExists) {
       return loc;
     } else {
       loc.folder = dirToSearch;
-      const { stdout: cmdReponseFileCheck } = await this.execute(
-        `ls ${dirToSearch}/out`,
+      const existingFileArray = await fs.readdir(`${dirToSearch}/out`);
+      const foundFile = existingFileArray.find(fileName =>
+        fileName.includes('tgz'),
       );
-      const responseArray = cmdReponseFileCheck.split('\n');
-      const foundFile = responseArray.find(file => file.includes('tgz'));
 
       if (!foundFile) {
         return loc;
@@ -167,7 +160,7 @@ export const rules = ${JSON.stringify(populatedRules)};
   }
 
   public async deleteLocation(location: string): Promise<void> {
-    await this.execute(`rm -rf ${location}`);
+    await fs.remove(location);
   }
 
   private parseTitleToFileName(title: string): string {
