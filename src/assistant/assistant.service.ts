@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { CommandService } from './command.service';
 import {
   CreateAssistantDTO,
-  ReturnAssistantDTO,
   GetAsstResponseDTO,
+  ReturnAssistantDTO,
 } from './assistant.dto';
+import { CommandService } from './command.service';
 import { allRules } from './origin/statics';
 
 @Injectable()
@@ -51,14 +51,9 @@ export class AssistantService {
       status.downloaded = true;
     } catch (err) {
       console.error(err);
-    } finally {
-      if (status.downloaded) {
-        setTimeout(() => {
-          this.cmdServ.deleteLocation(foundFile);
-        }, 5 * 60 * 1000);
-      }
-      return status;
     }
+
+    return status;
   }
 
   public async getAllRules(): Promise<ReturnAssistantDTO[]> {
