@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { CommandService } from '../command.service';
+import { CommandService } from './command.service';
 import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
 import { allRules } from './origin/statics';
 
@@ -44,7 +44,7 @@ export class AssistantService {
       if (downloaded) {
         setTimeout(() => {
           this.commandService.deleteLocation(foundPath.folder);
-        }, 30000);
+        }, 5 * 60 * 1000);
       }
     }
   }

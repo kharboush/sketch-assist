@@ -1,19 +1,22 @@
 import {
   Body,
   Controller,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
   Post,
   Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { CreateAssistantDTO, ReturnAssistantDTO } from './assistant.dto';
-import { AssistantService } from './assistant.service';
+import {
+  CreateAssistantDTO,
+  ReturnAssistantDTO,
+} from './assistant/assistant.dto';
+import { AssistantService } from './assistant/assistant.service';
 
 @Controller()
-export class AssistantController {
+export class AppController {
   constructor(private readonly assistantService: AssistantService) {}
 
   @Get()
@@ -31,7 +34,7 @@ export class AssistantController {
     if (foundCheck && !foundCheck.folder) {
       throw new NotFoundException('Assistant not found!');
     } else if (foundCheck && !foundCheck.file) {
-      throw new UnauthorizedException('Resource still being processed...');
+      throw new ForbiddenException('Assistant still being processed...');
     }
   }
 

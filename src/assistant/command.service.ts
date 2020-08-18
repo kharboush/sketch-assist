@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as util from 'util';
-import { CreateAssistantDTO } from './assistant/assistant.dto';
-import { pkgTemplate } from './assistant/origin/statics';
+import { CreateAssistantDTO } from './assistant.dto';
+import { pkgTemplate } from './origin/statics';
 
 @Injectable()
 export class CommandService {
