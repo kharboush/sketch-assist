@@ -11,8 +11,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.use(
     rateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 500, // limit each IP to 500 requests per windowMs
+      windowMs: 15 * 60 * 1000,
+      max: 500,
     }),
   );
   await app.listen(process.env.PORT || 5000);

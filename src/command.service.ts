@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as util from 'util';
 import { CreateAssistantDTO } from './assistant/assistant.dto';
@@ -15,8 +15,9 @@ export class CommandService {
   public async generateAssistantDir(generatedId: string): Promise<void> {
     this.generatedId = generatedId;
     this.generatedDir = `src/assistant/generated/${this.generatedId}`;
-    await this.execute(`cp -r src/assistant/origin ${this.generatedDir}`);
     this.configLocation = `./${this.generatedDir}/src/config.ts`;
+
+    await this.execute(`cp -r src/assistant/origin ${this.generatedDir}`);
   }
 
   public async generateAssistantPkg(
