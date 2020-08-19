@@ -53,7 +53,7 @@ export class CommandService {
   public async genAsstRules(requestBody: CreateAsstDTO): Promise<any> {
     const populatedRules = requestBody.assistants.reduce((rules, req) => {
       req.rules.forEach(rule => {
-        rules[`${req.assistant}/${rule.name}`] = rule.config;
+        rules[`${req.packageName}/${rule.name}`] = rule.config;
       });
 
       return rules;
