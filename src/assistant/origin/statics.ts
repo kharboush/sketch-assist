@@ -255,3 +255,19 @@ export const pkgTemplate = {
   },
   dependencies: {},
 };
+
+export const description = `
+## Why this exists?
+Creating a Sketch Assistant, and defining the rules that you want in it requires knowledge of JavaScript and NPM.
+
+This API eliminates the need to create assistant packages manually and exposes config to multiple configurable rules.
+
+A front-end will be coming soon, as well as a larger selection of rules.
+
+## Guide to this API:
+1. Get all rules available.
+2. Build your package using the POST request.
+3. Use the POST response ID to do a GET request. Generation takes ~30 seconds.
+
+by @antonkharboush
+`;
