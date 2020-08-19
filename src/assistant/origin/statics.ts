@@ -1,6 +1,7 @@
 const config = {
   active: false,
 };
+
 export const allRules = [
   {
     packageName: '@sketch-hq/sketch-core-assistant',
