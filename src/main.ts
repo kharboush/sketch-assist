@@ -10,7 +10,7 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('Sketch Assistant Generator API')
     .setDescription('A generator for Sketch Assistants')
-    .setVersion('1.0.0')
+    .setVersion('0.3.5')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
