@@ -260,7 +260,7 @@ export const description = `
 ## Why this exists?
 Creating a Sketch Assistant, and defining the rules that you want in it requires knowledge of JavaScript and NPM.
 
-This API eliminates the need to create assistant packages manually and exposes config to multiple configurable rules.
+This API eliminates the need to create assistant packages manually and exposes multiple configurable rules.
 
 A front-end will be coming soon, as well as a larger selection of rules.
 
