@@ -32,10 +32,10 @@ export class RuleDTO {
     description:
       'Config depends on the rules. Use a GET request to get all definitions available',
   })
-  config: { active: boolean } | any;
+  config: any & { active: boolean };
 }
 
-export class GetAssistantsDTO {
+export class CoreAssistantDTO {
   @IsNotEmpty()
   @IsString()
   @Length(3, 36)
@@ -99,10 +99,10 @@ export class CreateAssistantDTO {
   @ArrayNotEmpty()
   @ApiProperty({
     description: 'A list of extended assistants',
-    type: [GetAssistantsDTO],
+    type: [CoreAssistantDTO],
     items: {
       minItems: 1,
     },
   })
-  assistants: GetAssistantsDTO[];
+  assistants: CoreAssistantDTO[];
 }
