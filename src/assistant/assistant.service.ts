@@ -3,8 +3,8 @@ import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import {
   CreateAssistantDTO,
-  GetAsstResponseDTO,
-  ReturnAssistantDTO,
+  CoreAssistantDTO,
+  GetAssistantsDTO,
 } from './assistant.dto';
 import { CommandService } from './command.service';
 import { allRules } from './origin/statics';
@@ -29,7 +29,7 @@ export class AssistantService {
   public async getAssistant(
     res: Response,
     id: string,
-  ): Promise<GetAsstResponseDTO> {
+  ): Promise<CoreAssistantDTO> {
     const status = { dir: false, downloaded: false };
     const dir = `src/assistant/generated/${id}`;
     let foundFile = '';
@@ -56,7 +56,7 @@ export class AssistantService {
     return status;
   }
 
-  public async getAllRules(): Promise<ReturnAssistantDTO[]> {
+  public async getAllRules(): Promise<GetAssistantsDTO[]> {
     return allRules;
   }
 }

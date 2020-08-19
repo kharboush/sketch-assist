@@ -20,7 +20,7 @@ import {
 import { Response } from 'express';
 import {
   CreateAssistantDTO,
-  ReturnAssistantDTO,
+  GetAssistantsDTO,
 } from './assistant/assistant.dto';
 import { AssistantService } from './assistant/assistant.service';
 
@@ -32,7 +32,7 @@ export class AppController {
   @ApiOkResponse({
     description: 'All assistant rules available to use have been returned',
   })
-  public async getAllRules(): Promise<ReturnAssistantDTO[]> {
+  public async getAllRules(): Promise<GetAssistantsDTO[]> {
     return this.assistantService.getAllRules();
   }
 

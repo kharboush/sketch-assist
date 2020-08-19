@@ -9,7 +9,7 @@ import {
   Length,
 } from 'class-validator';
 
-export class GetAsstResponseDTO {
+export class CoreAssistantDTO {
   dir: boolean;
   downloaded: boolean;
 }
@@ -35,7 +35,7 @@ class RuleDTO {
   config: any;
 }
 
-export class ReturnAssistantDTO {
+export class GetAssistantsDTO {
   @IsNotEmpty()
   @IsString()
   @Length(3, 36)
@@ -99,10 +99,10 @@ export class CreateAssistantDTO {
   @ArrayNotEmpty()
   @ApiProperty({
     description: 'A list of extended assistants',
-    type: [ReturnAssistantDTO],
+    type: [GetAssistantsDTO],
     items: {
       minItems: 1,
     },
   })
-  assistants: ReturnAssistantDTO[];
+  assistants: GetAssistantsDTO[];
 }
