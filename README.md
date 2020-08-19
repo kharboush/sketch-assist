@@ -2,7 +2,7 @@
 
 # Sketch Assistant Generator
 
-<a href="https://sketchassistant.herokuapp.com/api/">Visit live</a>
+<a href="https://sketch-assistant-generator.herokuapp.com/api/">Visit live</a>
 
 ## Description
 
