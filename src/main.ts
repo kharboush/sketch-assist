@@ -9,7 +9,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
     .setTitle('Sketch Assistant Generator API')
-    .setDescription('A generator for Sketch Assistants')
+    .setDescription('A generator for Sketch Assistants by Anton Kharboush')
     .setVersion('0.3.5')
     .build();
 
