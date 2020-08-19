@@ -9,7 +9,7 @@ import {
   Length,
 } from 'class-validator';
 
-export interface GetAssistantStatus {
+export class GetAssistantStatus {
   dir: boolean;
   downloaded: boolean;
 }
