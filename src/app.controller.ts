@@ -14,6 +14,8 @@ import {
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiParam,
+  ApiParamOptions,
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import {
@@ -35,6 +37,7 @@ export class AppController {
   }
 
   @Get('/assistants/:id')
+  @ApiParam({ name: 'id', example: 'a-97e820a0-6243-4ecd-ba1b-afc2a5909feb' })
   @ApiOkResponse({
     description: 'Assistant has been found and queued for download',
   })
