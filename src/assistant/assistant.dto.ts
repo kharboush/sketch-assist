@@ -98,7 +98,7 @@ export class CreateAssistantDTO {
   @IsArray()
   @ArrayNotEmpty()
   @ApiProperty({
-    description: 'A list of Assistants',
+    description: 'A list of extended assistants',
     type: [ReturnAssistantDTO],
     items: {
       minItems: 1,
