@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer/decorators';
 import {
   ArrayNotEmpty,
   IsArray,
@@ -7,6 +8,7 @@ import {
   IsOptional,
   IsString,
   Length,
+  ValidateNested,
 } from 'class-validator';
 
 export class GetAssistantStatus {
@@ -47,6 +49,8 @@ export class CoreAssistantDTO {
   packageName: string;
   @IsArray()
   @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => RuleDTO)
   @ApiProperty({
     type: [RuleDTO],
     description: 'A list of extended rules from this assistant',
@@ -97,6 +101,8 @@ export class CreateAssistantDTO {
   icon: string;
   @IsArray()
   @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => CoreAssistantDTO)
   @ApiProperty({
     description: 'A list of extended assistants',
     type: [CoreAssistantDTO],

@@ -7,7 +7,7 @@ import {
   CoreAssistantDTO,
 } from './assistant.dto';
 import { CommandService } from './command.service';
-import { allRules } from './origin/statics';
+import { allRules } from './statics';
 
 @Injectable()
 export class AssistantService {

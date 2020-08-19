@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import * as fs from 'fs-extra';
 import * as util from 'util';
-import { CreateAssistantDTO as CreateAsstDTO } from './assistant.dto';
-import { pkgTemplate } from './origin/statics';
+import { pkgTemplate } from './statics';
+import { CreateAssistantDTO } from './assistant.dto';
 
 @Injectable()
 export class CommandService {
@@ -23,7 +23,7 @@ export class CommandService {
     await fs.copy('src/assistant/origin', this.generatedDir);
   }
 
-  public async genAsstPkg(requestBody: CreateAsstDTO): Promise<any> {
+  public async genAsstPkg(requestBody: CreateAssistantDTO): Promise<any> {
     const parsedFileName = this.parseTitleToFileName(requestBody.name);
 
     const userPref = {
@@ -50,7 +50,7 @@ export class CommandService {
     return { id: this.generatedId, ...userPref };
   }
 
-  public async genAsstRules(requestBody: CreateAsstDTO): Promise<any> {
+  public async genAsstRules(requestBody: CreateAssistantDTO): Promise<any> {
     const populatedRules = requestBody.assistants.reduce((rules, req) => {
       req.rules.forEach(rule => {
         rules[`${req.packageName}/${rule.name}`] = rule.config;
