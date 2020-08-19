@@ -1,9 +1,9 @@
-import { GetAssistantsDTO } from '../assistant.dto';
+import { CoreAssistantDTO } from '../assistant.dto';
 const config = {
   active: false,
 };
 
-export const allRules: GetAssistantsDTO[] = [
+export const allRules: CoreAssistantDTO[] = [
   {
     packageName: '@sketch-hq/sketch-core-assistant',
     rules: [

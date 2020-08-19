@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   CreateAssistantDTO,
   GetAssistantStatus,
-  GetAssistantsDTO,
+  CoreAssistantDTO,
 } from './assistant.dto';
 import { CommandService } from './command.service';
 import { allRules } from './origin/statics';
@@ -56,7 +56,7 @@ export class AssistantService {
     return status;
   }
 
-  public async getAllRules(): Promise<GetAssistantsDTO[]> {
+  public async getAllRules(): Promise<CoreAssistantDTO[]> {
     return allRules;
   }
 }
