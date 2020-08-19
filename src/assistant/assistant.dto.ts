@@ -9,12 +9,12 @@ import {
   Length,
 } from 'class-validator';
 
-export class GetAssistantStatus {
+export interface GetAssistantStatus {
   dir: boolean;
   downloaded: boolean;
 }
 
-class RuleDTO {
+export class RuleDTO {
   @IsNotEmpty()
   @IsString()
   @Length(3, 36)
@@ -32,7 +32,7 @@ class RuleDTO {
     description:
       'Config depends on the rules. Use a GET request to get all definitions available',
   })
-  config: any;
+  config: { active: boolean } | any;
 }
 
 export class GetAssistantsDTO {
