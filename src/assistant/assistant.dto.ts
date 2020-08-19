@@ -58,27 +58,27 @@ export class ReturnAssistantDTO {
 }
 
 export class CreateAssistantDTO {
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Length(3, 36)
   @ApiProperty({
     type: 'string',
-    description: '3-36 characters',
+    description: '3-36 characters, optional',
     example: 'My first assistant',
   })
   name: string;
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Length(6, 72)
   @ApiProperty({
     type: 'string',
-    description: '7-72 characters',
-    example: 'Example name for the custom assistant',
+    description: '6-72 characters, optional',
+    example: 'A very descriptive description for the custom assistant',
   })
   description: string;
   @IsOptional()
   @IsString()
-  @Length(1, 9)
+  @Length(1, 8)
   @ApiProperty({
     type: 'string',
     description: 'Optional version for package',
@@ -87,6 +87,7 @@ export class CreateAssistantDTO {
   version: string;
   @IsOptional()
   @IsString()
+  @Length(6, 360)
   @ApiProperty({
     type: 'string',
     description: 'Optional image URL, used inside Sketch',
