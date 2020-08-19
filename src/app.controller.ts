@@ -8,6 +8,13 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 import {
   CreateAssistantDTO,
@@ -19,12 +26,24 @@ import { AssistantService } from './assistant/assistant.service';
 export class AppController {
   constructor(private readonly assistantService: AssistantService) {}
 
-  @Get()
+  @Get('assistants')
+  @ApiOkResponse({
+    description: 'All assistant rules available to use have been returned',
+  })
   public async getAllRules(): Promise<ReturnAssistantDTO[]> {
     return this.assistantService.getAllRules();
   }
 
-  @Get('/assistant/:id')
+  @Get('/assistants/:id')
+  @ApiOkResponse({
+    description: 'Assistant has been found and queued for download',
+  })
+  @ApiForbiddenResponse({
+    description: 'The server is still processing the requested assistant',
+  })
+  @ApiNotFoundResponse({
+    description: 'An assistant with that ID was not found',
+  })
   public async getAssistant(
     @Res() res: Response,
     @Param('id') id: string,
@@ -38,7 +57,11 @@ export class AppController {
     }
   }
 
-  @Post('assistant')
+  @Post('assistants')
+  @ApiCreatedResponse({
+    description: 'Assistant creation queued, returned ID for GET request',
+  })
+  @ApiBody({ type: CreateAssistantDTO })
   public async createAssistant(
     @Body() body: CreateAssistantDTO,
   ): Promise<string> {
