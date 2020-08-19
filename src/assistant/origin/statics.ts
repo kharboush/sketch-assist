@@ -266,8 +266,8 @@ A front-end will be coming soon, as well as a larger selection of rules.
 
 ## Guide to this API:
 1. See all rules available with a GET request.
-2. Request your package using the POST, receive an ID.
-3. Use the ID as a param to the GET request to receive your download.
+2. Request your package using POST, receive an ID.
+3. Use the ID as a param to a GET request and receive your download.
 
 by @antonkharboush
 `;
