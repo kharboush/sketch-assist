@@ -9,7 +9,7 @@ import {
   Length,
 } from 'class-validator';
 
-export class CoreAssistantDTO {
+export class GetAssistantStatus {
   dir: boolean;
   downloaded: boolean;
 }

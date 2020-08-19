@@ -3,7 +3,7 @@ import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import {
   CreateAssistantDTO,
-  CoreAssistantDTO,
+  GetAssistantStatus,
   GetAssistantsDTO,
 } from './assistant.dto';
 import { CommandService } from './command.service';
@@ -29,7 +29,7 @@ export class AssistantService {
   public async getAssistant(
     res: Response,
     id: string,
-  ): Promise<CoreAssistantDTO> {
+  ): Promise<GetAssistantStatus> {
     const status = { dir: false, downloaded: false };
     const dir = `src/assistant/generated/${id}`;
     let foundFile = '';
