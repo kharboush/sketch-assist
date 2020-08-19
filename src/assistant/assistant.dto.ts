@@ -41,10 +41,10 @@ export class ReturnAssistantDTO {
   @Length(3, 36)
   @ApiProperty({
     type: 'string',
-    description: 'Name of the extended assistant',
+    description: 'Name of the extended assistant package',
     example: '@sketch-hq/sketch-core-assistant',
   })
-  assistant: string;
+  packageName: string;
   @IsArray()
   @ArrayNotEmpty()
   @ApiProperty({

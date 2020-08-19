@@ -3,7 +3,7 @@ const config = {
 };
 export const allRules = [
   {
-    assistant: '@sketch-hq/sketch-core-assistant',
+    packageName: '@sketch-hq/sketch-core-assistant',
     rules: [
       {
         name: 'artboards-grid',
