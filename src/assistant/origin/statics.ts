@@ -256,7 +256,10 @@ export const pkgTemplate = {
   dependencies: {},
 };
 
-export const description = `
+export const info = {
+  title: `Sketch Assistant Generator API`,
+  ver: `0.4.1`,
+  desc: `
 ## Why this exists?
 Creating a Sketch Assistant, and defining the rules that you want in it requires knowledge of JavaScript and NPM.
 
@@ -270,4 +273,5 @@ A front-end will be coming soon, as well as a larger selection of rules.
 3. Use the ID as a param to a GET request and receive your download.
 
 by @antonkharboush
-`;
+`,
+};

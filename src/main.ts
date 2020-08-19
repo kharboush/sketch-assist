@@ -4,15 +4,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet';
 import { AppModule } from './app.module';
-import { description } from './assistant/origin/statics';
-
+import { info } from './assistant/origin/statics';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
-    .setTitle('Sketch Assistant Generator API')
-    .setDescription(description)
-    .setVersion('0.4.1')
+    .setTitle(info.title)
+    .setVersion(info.ver)
+    .setDescription(info.desc)
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
