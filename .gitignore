@@ -1,8 +1,8 @@
 # compiled output
 /dist
 /node_modules
-src/assistant/generated/*
-!src/assistant/generated/.keep
+storage/*
+!storage/.keep
 
 # Logs
 logs

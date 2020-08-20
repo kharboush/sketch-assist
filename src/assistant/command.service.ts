@@ -12,15 +12,15 @@ export class CommandService {
   );
   private static readonly write = fs.promises.writeFile;
   private generatedId = '';
-  private generatedDir = '';
+  private storageDir = '';
   private configLocation = '';
 
   public async genAsstDirFromId(generatedId: string): Promise<void> {
     this.generatedId = generatedId;
-    this.generatedDir = `src/assistant/generated/${this.generatedId}`;
-    this.configLocation = `./${this.generatedDir}/src/config.ts`;
+    this.storageDir = `storage/${this.generatedId}`;
+    this.configLocation = `./${this.storageDir}/src/config.ts`;
 
-    await fs.copy('src/assistant/origin', this.generatedDir);
+    await fs.copy('src/assistant/origin', this.storageDir);
   }
 
   public async genAsstPkg(requestBody: CreateAssistantDTO): Promise<any> {
@@ -40,7 +40,7 @@ export class CommandService {
     try {
       console.log('Generating package.json file...');
       await CommandService.write(
-        `./${this.generatedDir}/package.json`,
+        `./${this.storageDir}/package.json`,
         JSON.stringify(options),
       );
       console.log('package.json created');
@@ -77,11 +77,12 @@ export class CommandService {
       console.error(err.message);
     }
   }
+
   public async genAsstFile(): Promise<void> {
     try {
       console.log('Generating assistant file...');
       const { stdout: cmdReponse } = await CommandService.execute(
-        `cd ${this.generatedDir} && npm run package-tarball`,
+        `cd ${this.storageDir} && npm run package-tarball`,
       );
       console.log(cmdReponse);
       console.log('File created!');
@@ -89,6 +90,7 @@ export class CommandService {
       console.error(err.message);
     }
   }
+
   public async findAsstDirByLoc(location: string): Promise<boolean> {
     return await fs.pathExists(location);
   }
@@ -111,7 +113,7 @@ export class CommandService {
   @Cron(CronExpression.EVERY_HOUR)
   public async runCleanup(): Promise<void> {
     console.log('Running file cleanup...');
-    await fs.emptyDir('src/assistant/generated');
+    await fs.emptyDir('storage');
     console.log('Directory cleaned up');
   }
 
