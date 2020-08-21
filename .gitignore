@@ -1,8 +1,7 @@
 # compiled output
 dist/
-node_modules
-api/storage/*
-!api/storage/.keep
+node_modules/
+storage/
 
 # Logs
 logs
