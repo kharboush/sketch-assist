@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
+import axios from 'axios';
 
-const API = "https://sketchassistant.herokuapp.com";
+const API = 'https://sketchassistant.herokuapp.com/assistants';
 
 const generateRuleOptions = (rule) => {
   return Object.keys(rule.config).map((option) => {
-    if (option !== "active") {
+    if (option !== 'active') {
       if (
-        typeof rule.config[option] === "number" ||
-        typeof rule.config[option] === "string"
+        typeof rule.config[option] === 'number' ||
+        typeof rule.config[option] === 'string'
       ) {
         return (
           <div>
@@ -24,7 +24,7 @@ const generateRuleOptions = (rule) => {
         );
       }
     }
-    return "";
+    return '';
   });
 };
 
@@ -78,4 +78,4 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />, document.querySelector("#root"));
+ReactDOM.render(<App />, document.querySelector('#root'));
