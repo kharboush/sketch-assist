@@ -9,4 +9,4 @@ import { CommandService } from './assistant/command.service';
   controllers: [AppController],
   providers: [AssistantService, CommandService],
 })
-export class AppModule {}
+export class AppModule { }

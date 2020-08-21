@@ -11,7 +11,7 @@ import { allRules } from './statics';
 
 @Injectable()
 export class AssistantService {
-  constructor(private readonly cmdServ: CommandService) {}
+  constructor(private readonly cmdServ: CommandService) { }
 
   public async createAssistant(reqBody: CreateAssistantDTO): Promise<any> {
     const createdId = `a-${uuidv4()}`;
