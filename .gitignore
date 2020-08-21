@@ -2,6 +2,7 @@
 dist/
 node_modules/
 storage/
+!api/storage/.keep
 
 # Logs
 logs
