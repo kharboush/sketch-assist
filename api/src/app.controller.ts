@@ -6,7 +6,7 @@ import {
   NotFoundException,
   Param,
   Post,
-  Res,
+  Res
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -14,19 +14,15 @@ import {
   ApiForbiddenResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiParam,
-  ApiParamOptions,
+  ApiParam
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import {
-  CreateAssistantDTO,
-  CoreAssistantDTO,
-} from './assistant/assistant.dto';
+import { CoreAssistantDTO, CreateAssistantDTO } from './assistant/assistant.dto';
 import { AssistantService } from './assistant/assistant.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly assistantService: AssistantService) {}
+  constructor(private readonly assistantService: AssistantService) { }
 
   @Get('assistants')
   @ApiOkResponse({
