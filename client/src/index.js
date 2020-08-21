@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const API = 'https://sketchassistant.herokuapp.com/assistants';
 
-const generateRuleOptions = (rule) => {
-  return Object.keys(rule.config).map((option) => {
+const generateRuleOptions = rule => {
+  return Object.keys(rule.config).map(option => {
     if (option !== 'active') {
       if (
         typeof rule.config[option] === 'number' ||
@@ -51,11 +51,11 @@ const App = () => {
   return (
     <>
       <div>
-        {assistants.map((ast) => {
+        {assistants.map(ast => {
           return (
             <>
               <h1 key={ast.assistant}>{ast.assistant}</h1>
-              {ast.rules.map((rule) => {
+              {ast.rules.map(rule => {
                 return (
                   <>
                     <Rule rule={rule} key={rule.name} />
