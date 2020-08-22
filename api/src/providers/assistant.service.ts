@@ -2,12 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  CreateAssistantDTO,
-  GetAssistantStatus,
-  CoreAssistantDTO,
-} from './assistant.dto';
+  CoreAssistantDTO, CreateAssistantDTO,
+  GetAssistantStatus
+} from '../statics/definitions.dto';
+import rules from '../statics/rules';
 import { CommandService } from './command.service';
-import { allRules } from './statics';
 
 @Injectable()
 export class AssistantService {
@@ -31,7 +30,7 @@ export class AssistantService {
     id: string,
   ): Promise<GetAssistantStatus> {
     const status = { dir: false, downloaded: false };
-    const dir = `src/assistant/generated/${id}`;
+    const dir = `storage/${id}`;
     let foundFile = '';
 
     try {
@@ -57,6 +56,6 @@ export class AssistantService {
   }
 
   public async getAllRules(): Promise<CoreAssistantDTO[]> {
-    return allRules;
+    return rules;
   }
 }

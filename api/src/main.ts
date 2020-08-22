@@ -4,7 +4,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as rateLimit from 'express-rate-limit';
 import * as helmet from 'helmet';
 import { AppModule } from './app.module';
-import { info } from './assistant/statics';
+import info from './statics/info';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');

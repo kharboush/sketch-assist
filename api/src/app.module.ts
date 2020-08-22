@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
-import { AssistantService } from './assistant/assistant.service';
-import { CommandService } from './assistant/command.service';
+import { AssistantService } from './providers/assistant.service';
+import { CommandService } from './providers/command.service';
 
 @Module({
   imports: [ScheduleModule.forRoot()],

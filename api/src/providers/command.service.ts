@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import * as fs from 'fs-extra';
 import * as util from 'util';
-import { pkgTemplate } from './statics';
-import { CreateAssistantDTO } from './assistant.dto';
+import { CreateAssistantDTO } from '../statics/definitions.dto';
+import packageJson from "../statics/package.json";
 
 @Injectable()
 export class CommandService {
@@ -20,7 +20,7 @@ export class CommandService {
     this.storageDir = `storage/${this.generatedId}`;
     this.configLocation = `./${this.storageDir}/src/config.ts`;
 
-    await fs.copy('src/assistant/origin', this.storageDir);
+    await fs.copy('src/statics/origin', this.storageDir);
   }
 
   public async genAsstPkg(requestBody: CreateAssistantDTO): Promise<any> {
@@ -35,7 +35,7 @@ export class CommandService {
         icon: requestBody.icon || '',
       },
     };
-    const options = { ...pkgTemplate, ...userPref };
+    const options = { ...packageJson, ...userPref };
 
     try {
       console.log('Generating package.json file...');

@@ -17,8 +17,8 @@ import {
   ApiParam
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CoreAssistantDTO, CreateAssistantDTO } from './assistant/assistant.dto';
-import { AssistantService } from './assistant/assistant.service';
+import { AssistantService } from './providers/assistant.service';
+import { CoreAssistantDTO, CreateAssistantDTO } from './statics/definitions.dto';
 
 @Controller()
 export class AppController {
