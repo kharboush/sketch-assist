@@ -6,7 +6,8 @@ import {
   NotFoundException,
   Param,
   Post,
-  Res
+  Res,
+  Redirect
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -32,7 +33,18 @@ export class AppController {
     return this.assistantService.getAllRules();
   }
 
-  @Get('/assistants/:id')
+  @Post('assistants')
+  @ApiCreatedResponse({
+    description: 'Assistant creation queued, returned ID for GET request',
+  })
+  @ApiBody({ type: CreateAssistantDTO })
+  public async createAssistant(
+    @Body() body: CreateAssistantDTO,
+  ): Promise<string> {
+    return this.assistantService.createAssistant(body);
+  }
+
+  @Get('assistants/:id')
   @ApiParam({ name: 'id', example: 'a-97e820a0-6243-4ecd-ba1b-afc2a5909feb' })
   @ApiOkResponse({
     description: 'Assistant has been found and queued for download',
@@ -54,16 +66,5 @@ export class AppController {
     } else if (response && !response.downloaded) {
       throw new ForbiddenException('Assistant still being processed...');
     }
-  }
-
-  @Post('assistants')
-  @ApiCreatedResponse({
-    description: 'Assistant creation queued, returned ID for GET request',
-  })
-  @ApiBody({ type: CreateAssistantDTO })
-  public async createAssistant(
-    @Body() body: CreateAssistantDTO,
-  ): Promise<string> {
-    return this.assistantService.createAssistant(body);
   }
 }

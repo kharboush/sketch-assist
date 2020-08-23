@@ -8,7 +8,6 @@ import info from './statics/info';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
   const options = new DocumentBuilder()
     .setTitle(info.title)
     .setVersion(info.ver)
@@ -16,7 +15,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('', app, document);
 
   app.enableCors();
   app.use(helmet());
