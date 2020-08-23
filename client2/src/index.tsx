@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
+import { CoreAssistantDTO, RuleDTO } from '../statics/definitions.dto';
 
 const API = 'https://sketchassistant.herokuapp.com/assistants';
 
-const generateRuleOptions = rule => {
+const generateRuleOptions = (rule: RuleDTO) => {
   return Object.keys(rule.config).map(option => {
     if (option !== 'active') {
       if (
@@ -28,7 +29,7 @@ const generateRuleOptions = rule => {
   });
 };
 
-const Rule = ({ rule }) => {
+const Rule = ({ rule }: { rule: RuleDTO }) => {
   return (
     <div>
       <input type="checkbox" name={rule.name} id={rule.name} />
@@ -39,7 +40,7 @@ const Rule = ({ rule }) => {
 };
 
 const App = () => {
-  const [assistants, setAssistants] = useState([]);
+  const [assistants, setAssistants] = useState<CoreAssistantDTO[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -51,10 +52,10 @@ const App = () => {
   return (
     <>
       <div>
-        {assistants.map(ast => {
+        {assistants.map((ast: CoreAssistantDTO) => {
           return (
             <>
-              <h1 key={ast.assistant}>{ast.assistant}</h1>
+              <h1 key={ast.packageName}>{ast.packageName}</h1>
               {ast.rules.map(rule => {
                 return (
                   <>
