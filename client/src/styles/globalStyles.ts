@@ -20,6 +20,14 @@ a {
   box-sizing: border-box;
 }
 
+h1 {
+  font-family: 'Krona One', sans-serif;
+  color: ${getColor('primary')};
+  font-size: 24px;
+  line-height: 32px;
+  margin-bottom: 16px;
+}
+
 `;
 
 export default GlobalStyle;

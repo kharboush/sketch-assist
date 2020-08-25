@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CoreAssistantContext } from '../../../pages';
 import { getColor } from '../../utils/colors';
 import { CoreAssistantDTO } from '../../utils/definitions.dto';
-import { Rule } from '../rule';
+import Rule from '../Rule';
 
 const Header = styled.header`
   margin: 40px auto;
@@ -31,17 +31,18 @@ const RulesContainer = styled.div`
   overflow: auto;
 `;
 
+const Logo = styled.img`
+  margin: auto;
+  display: block;
+`;
+
 const Sidebar = () => {
   const assistants: CoreAssistantDTO[] = useContext(CoreAssistantContext);
 
   return (
     <Aside>
       <Header>
-        <img
-          style={{ margin: 'auto', display: 'block' }}
-          src="./logo.svg"
-          alt="logo"
-        />
+        <Logo src="./logo.svg" alt="logo" />
       </Header>
       <div style={{ width: '100%', display: 'flex' }}>
         <Input type="search" name="" id="" placeholder="Search for a rule..." />

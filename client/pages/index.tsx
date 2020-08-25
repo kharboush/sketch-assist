@@ -1,9 +1,9 @@
 import Head from 'next/head';
 import React from 'react';
-import Main from '../src/components/containers/main';
-import Sidebar from '../src/components/containers/sidebar';
-import { CoreAssistantDTO } from '../src/utils/definitions.dto';
+import Content from 'src/components/containers/Content';
+import Sidebar from 'src/components/containers/sidebar';
 import GlobalStyle from '../src/styles/globalStyles';
+import { CoreAssistantDTO } from '../src/utils/definitions.dto';
 import { getAllRulesData as getAllAssistantData } from '../src/utils/requests';
 
 export const getStaticProps = async () => {
@@ -14,6 +14,7 @@ export const getStaticProps = async () => {
     },
   };
 };
+
 export const CoreAssistantContext = React.createContext([]);
 export default function Home({
   allAssistantData,
@@ -33,7 +34,7 @@ export default function Home({
       <CoreAssistantContext.Provider value={allAssistantData}>
         <div style={{ display: 'flex' }}>
           <Sidebar />
-          <Main />
+          <Content />
         </div>
       </CoreAssistantContext.Provider>
     </>
