@@ -3,6 +3,7 @@ dist/
 node_modules/
 api/storage/*
 !api/storage/.keep
+.next/
 
 # Logs
 logs
