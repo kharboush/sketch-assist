@@ -47,7 +47,6 @@ const ButtonPrimary = styled.button`
   padding: 0px 16px;
   cursor: pointer;
   transition: 0.6s cubic-bezier(0.075, 0.82, 0.165, 1);
-
   &:hover {
     transform: translateY(-4px) rotate(-1deg);
   }
@@ -56,23 +55,30 @@ const ButtonPrimary = styled.button`
   }
 `;
 
-const Content = () => (
-  <Main>
-    <NameInput
-      type="text"
-      name="name"
-      id="assistantName"
-      placeholder="Name (Optional)"
-    />
-    <DescriptionInput
-      name="description"
-      id="assistantDescription"
-      placeholder="Description (Optional)"
-    />
-    <h1>Rules</h1>
-    <h1>Preferences</h1>
-    <ButtonPrimary>Create</ButtonPrimary>
-  </Main>
-);
+const Content = () => {
+  const coolButtonAction = ev => {
+    ev.preventDefault();
+    console.log('Nice.');
+  };
+
+  return (
+    <Main>
+      <NameInput
+        type="text"
+        name="name"
+        id="assistantName"
+        placeholder="Name (Optional)"
+      />
+      <DescriptionInput
+        name="description"
+        id="assistantDescription"
+        placeholder="Description (Optional)"
+      />
+      <h1>Rules</h1>
+      <h1>Preferences</h1>
+      <ButtonPrimary onClick={ev => coolButtonAction(ev)}>Create</ButtonPrimary>
+    </Main>
+  );
+};
 
 export default Content;

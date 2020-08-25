@@ -11,6 +11,7 @@ const SearchInput = styled.input`
   line-height: 40px;
   margin-bottom: 8px;
   width: 100%;
+  max-width: 272px;
   background-image: url('./icons/search.svg');
   background-repeat: no-repeat;
   background-position: 8px;
