@@ -1,65 +1,41 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import React from 'react';
+import Main from '../src/components/containers/main';
+import Sidebar from '../src/components/containers/sidebar';
+import { CoreAssistantDTO } from '../src/utils/definitions.dto';
+import GlobalStyle from '../src/styles/globalStyles';
+import { getAllRulesData as getAllAssistantData } from '../src/utils/rules';
 
-export default function Home() {
+export const getStaticProps = async () => {
+  const allAssistantData = await getAllAssistantData();
+  return {
+    props: {
+      allAssistantData: allAssistantData,
+    },
+  };
+};
+export const CoreAssistantContext = React.createContext([]);
+export default function Home({
+  allAssistantData,
+}: {
+  allAssistantData: CoreAssistantDTO[];
+}) {
   return (
-    <div className={styles.container}>
+    <>
       <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Create Sketch Assistant</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Krona+One&family=Work+Sans:ital,wght@0,400;0,600;1,400&display=swap"
+          rel="stylesheet"
+        />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+      <GlobalStyle />
+      <CoreAssistantContext.Provider value={allAssistantData}>
+        <div style={{ display: 'flex' }}>
+          <Sidebar />
+          <Main />
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+      </CoreAssistantContext.Provider>
+    </>
+  );
 }
