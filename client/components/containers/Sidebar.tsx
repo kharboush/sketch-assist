@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
-import { CoreAssistantContext } from '../../../pages';
+import { CoreAssistantContext } from '../../pages';
 import { getColor } from '../../utils/colors';
 import { CoreAssistantDTO } from '../../utils/definitions.dto';
 import Rule from '../Rule';

@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import React from 'react';
-import Content from '../src/components/containers/Content';
-import Sidebar from '../src/components/containers/Sidebar';
-import GlobalStyle from '../src/styles/globalStyles';
-import { CoreAssistantDTO } from '../src/utils/definitions.dto';
-import { getAllRulesData as getAllAssistantData } from '../src/utils/requests';
+import Content from '../components/containers/Content';
+import Sidebar from '../components/containers/Sidebar';
+import GlobalStyle from '../components/styles/globalStyles';
+import { CoreAssistantDTO } from '../utils/definitions.dto';
+import { getAllRulesData } from '../utils/requests';
 
 export const getStaticProps = async () => {
-  const allAssistantData = await getAllAssistantData();
+  const allAssistantData = await getAllRulesData();
   return {
     props: {
       allAssistantData: allAssistantData,
