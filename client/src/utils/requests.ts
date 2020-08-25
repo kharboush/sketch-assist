@@ -6,6 +6,5 @@ export const API =
 
 export const getAllRulesData = async (): Promise<CoreAssistantDTO[]> => {
   const response = await axios.get(API);
-  console.log(response.data);
   return response.data;
 };

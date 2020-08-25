@@ -4,7 +4,7 @@ import Main from '../src/components/containers/main';
 import Sidebar from '../src/components/containers/sidebar';
 import { CoreAssistantDTO } from '../src/utils/definitions.dto';
 import GlobalStyle from '../src/styles/globalStyles';
-import { getAllRulesData as getAllAssistantData } from '../src/utils/rules';
+import { getAllRulesData as getAllAssistantData } from '../src/utils/requests';
 
 export const getStaticProps = async () => {
   const allAssistantData = await getAllAssistantData();

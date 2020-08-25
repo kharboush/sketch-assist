@@ -1,9 +1,9 @@
 import { useContext } from 'react';
+import styled from 'styled-components';
 import { CoreAssistantContext } from '../../../pages';
+import { getColor } from '../../utils/colors';
 import { CoreAssistantDTO } from '../../utils/definitions.dto';
 import { Rule } from '../rule';
-import { getColor } from '../../utils/colors';
-import styled from 'styled-components';
 
 const Header = styled.header`
   margin: 40px auto;
@@ -18,20 +18,24 @@ const Input = styled.input`
   width: 100%;
 `;
 
+const Aside = styled.aside`
+  background-color: ${getColor('primary', 5)};
+  display: block;
+  padding: 8px;
+  overflow: hidden;
+  height: 100%;
+`;
+
+const RulesContainer = styled.div`
+  height: calc(100vh - 208px);
+  overflow: auto;
+`;
+
 const Sidebar = () => {
   const assistants: CoreAssistantDTO[] = useContext(CoreAssistantContext);
 
   return (
-    <aside
-      style={{
-        width: 'auto',
-        height: '100vh',
-        overflow: 'auto',
-        backgroundColor: getColor('primary', 5),
-        display: 'block',
-        padding: '8px',
-      }}
-    >
+    <Aside>
       <Header>
         <img
           style={{ margin: 'auto', display: 'block' }}
@@ -42,7 +46,7 @@ const Sidebar = () => {
       <div style={{ width: '100%', display: 'flex' }}>
         <Input type="search" name="" id="" placeholder="Search for a rule..." />
       </div>
-      <div>
+      <RulesContainer>
         {assistants.map(a => (
           <div key={a.packageName}>
             {a.rules.map(rule => (
@@ -50,8 +54,8 @@ const Sidebar = () => {
             ))}
           </div>
         ))}
-      </div>
-    </aside>
+      </RulesContainer>
+    </Aside>
   );
 };
 
