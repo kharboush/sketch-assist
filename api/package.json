@@ -1,10 +1,7 @@
 {
   "name": "sketch-assist",
-  "version": "0.0.1",
-  "description": "",
-  "author": "kharboush",
-  "private": true,
-  "license": "UNLICENSED",
+  "version": "0.5.1",
+  "author": "anton@kharboush.com",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",

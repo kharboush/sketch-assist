@@ -1,6 +1,6 @@
 export default {
   title: `Sketch Assistant Generator API`,
-  ver: `0.4.1`,
+  ver: `0.5.0`,
   desc: `
 ## Why this exists?
 Creating a Sketch Assistant, and defining the rules that you want in it requires knowledge of JavaScript and NPM.
