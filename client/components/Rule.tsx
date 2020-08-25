@@ -19,6 +19,7 @@ const QuestionButton = styled.button`
   height: 24px;
   border: none;
   position: relative;
+  background-color: transparent;
   background-image: url('./icons/question-circle.svg');
   background-repeat: no-repeat;
 `;
@@ -32,7 +33,7 @@ const Rule = ({ rule }: { rule: RuleDTO }) => {
   return (
     <RuleContainer href="#">
       <RuleText>{rule.name}</RuleText>
-      <QuestionButton>.</QuestionButton>
+      <QuestionButton></QuestionButton>
     </RuleContainer>
   );
 };

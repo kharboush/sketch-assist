@@ -51,6 +51,9 @@ const ButtonPrimary = styled.button`
   &:hover {
     transform: translateY(-4px) rotate(-1deg);
   }
+  &:active {
+    transform: translateY(2px) rotate(1deg);
+  }
 `;
 
 const Content = () => (

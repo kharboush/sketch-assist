@@ -5,10 +5,6 @@ import { getColor } from '../../utils/colors';
 import { CoreAssistantDTO } from '../../utils/definitions.dto';
 import Rule from '../Rule';
 
-const Header = styled.header`
-  margin: 40px auto;
-`;
-
 const SearchInput = styled.input`
   border: none;
   padding: 0px 8px 0px 40px;
@@ -32,13 +28,14 @@ const Aside = styled.aside`
 `;
 
 const RulesContainer = styled.div`
-  height: calc(100vh - 208px);
+  height: calc(100vh - 224px);
   overflow: auto;
 `;
 
 const Logo = styled.img`
-  margin: auto;
+  margin: 40px auto;
   display: block;
+  height: 80px;
 `;
 
 const Sidebar = () => {
@@ -46,17 +43,13 @@ const Sidebar = () => {
 
   return (
     <Aside>
-      <Header>
-        <Logo src="./logo.svg" alt="logo" />
-      </Header>
-      <div style={{ width: '100%', display: 'flex' }}>
-        <SearchInput
-          type="search"
-          name=""
-          id=""
-          placeholder="Search for a rule..."
-        />
-      </div>
+      <Logo src="./logo.svg" alt="logo" />
+      <SearchInput
+        type="search"
+        name="search-rules"
+        id="search-rules"
+        placeholder="Search for a rule..."
+      />
       <RulesContainer>
         {assistants.map(a => (
           <div key={a.packageName}>
