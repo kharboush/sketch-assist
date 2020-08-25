@@ -1,6 +1,6 @@
-import { RuleDTO } from '../utils/definitions.dto';
 import styled from 'styled-components';
 import { getColor } from '../utils/colors';
+import { RuleDTO } from '../utils/definitions.dto';
 
 const RuleContainer = styled.a`
   padding: 8px 12px;
