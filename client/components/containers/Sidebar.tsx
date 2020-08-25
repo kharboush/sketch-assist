@@ -9,13 +9,18 @@ const Header = styled.header`
   margin: 40px auto;
 `;
 
-const Input = styled.input`
+const SearchInput = styled.input`
   border: none;
-  height: 40px;
-  padding: 12px;
-  font-size: 16px;
+  padding: 0px 8px 0px 40px;
+  line-height: 40px;
   margin-bottom: 8px;
   width: 100%;
+  background-image: url('./icons/search.svg');
+  background-repeat: no-repeat;
+  background-position: 8px;
+  ::placeholder {
+    color: ${getColor('primary', 40)};
+  }
 `;
 
 const Aside = styled.aside`
@@ -45,7 +50,12 @@ const Sidebar = () => {
         <Logo src="./logo.svg" alt="logo" />
       </Header>
       <div style={{ width: '100%', display: 'flex' }}>
-        <Input type="search" name="" id="" placeholder="Search for a rule..." />
+        <SearchInput
+          type="search"
+          name=""
+          id=""
+          placeholder="Search for a rule..."
+        />
       </div>
       <RulesContainer>
         {assistants.map(a => (

@@ -18,6 +18,10 @@ a {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+
+  &:focus {
+  outline: none;
+}
 }
 
 h1 {
@@ -27,7 +31,6 @@ h1 {
   line-height: 32px;
   margin-bottom: 16px;
 }
-
 `;
 
 export default GlobalStyle;
