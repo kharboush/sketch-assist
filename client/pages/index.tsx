@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
-import Content from 'src/components/containers/Content';
-import Sidebar from 'src/components/containers/sidebar';
+import Content from '../src/components/containers/Content';
+import Sidebar from '../src/components/containers/Sidebar';
 import GlobalStyle from '../src/styles/globalStyles';
 import { CoreAssistantDTO } from '../src/utils/definitions.dto';
 import { getAllRulesData as getAllAssistantData } from '../src/utils/requests';

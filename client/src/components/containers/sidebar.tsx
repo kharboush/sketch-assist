@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CoreAssistantContext } from '../../../pages';
 import { getColor } from '../../utils/colors';
 import { CoreAssistantDTO } from '../../utils/definitions.dto';
-import Rule from 'src/components/Rule';
+import Rule from '../Rule';
 
 const Header = styled.header`
   margin: 40px auto;
